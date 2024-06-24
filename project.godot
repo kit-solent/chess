@@ -13,3 +13,11 @@ config_version=5
 config/name="Chess"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Core="*res://Core.tscn"
+
+[editor]
+
+naming/node_name_casing=2

@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://wvghsdar3xml"]
+
+[ext_resource type="Script" path="res://start.gd" id="1_i2iou"]
+
+[node name="start" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i2iou")
+
+[node name="join" type="Button" parent="."]
+layout_mode = 0
+offset_left = 395.0
+offset_top = 279.0
+offset_right = 571.0
+offset_bottom = 436.0
+text = "Join Game"
+
+[node name="host" type="Button" parent="."]
+layout_mode = 0
+offset_left = 874.0
+offset_top = 302.0
+offset_right = 1100.0
+offset_bottom = 549.0
+text = "Host Game"
+
+[node name="join_code" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 204.0
+offset_top = 68.0
+offset_right = 895.0
+offset_bottom = 222.0
+placeholder_text = "Join Code"
+
+[connection signal="button_down" from="join" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="host" to="." method="_on_host_button_down"]
+[connection signal="text_changed" from="join_code" to="." method="_on_join_code_text_changed"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgif8pxrtcive"]
+
+[ext_resource type="Script" path="res://Core.gd" id="1_hbsjl"]
+
+[node name="Core" type="Node"]
+script = ExtResource("1_hbsjl")
