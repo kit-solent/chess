@@ -1,7 +1,7 @@
 extends Node
 
-const ip_delimiter = "."
-const code_delimiter = " "
+const IP_DELIMITER = "."
+const CODE_DELIMITER = " "
 var words = [
 	"bath",
 	"sniff",
@@ -258,17 +258,61 @@ var words = [
 	"tense",
 	"change",
 	"substantial",
-	"receptive",
-]
+	"receptive"]
+var ip_address:String
+func _ready():
+	if OS.has_feature("windows") and OS.has_environment("COMPUTERNAME"): # Windows
+		ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),IP.TYPE_IPV4)
+	elif OS.has_feature("x11") and OS.has_environment("HOSTNAME"): # Linux
+		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),IP.TYPE_IPV4)
+	elif OS.has_feature("OSX") and OS.has_environment("HOSTNAME"): # MacOS
+		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),IP.TYPE_IPV4)
 
 func ip_to_code(ip:String):
 	var x = ""
-	for i in ip.split(ip_delimiter): # 
-		x += words[int(i)] + code_delimiter
+	for i in ip.split(IP_DELIMITER):
+		x += words[int(i)] + CODE_DELIMITER
 	return x.left(-1)
 
 func code_to_ip(code:String):
 	var x = ""
-	for i in code.split(code_delimiter):
-		x += str(words.find(i)) + ip_delimiter
+	for i in code.split(CODE_DELIMITER):
+		x += str(words.find(i)) + IP_DELIMITER
 	return x.left(-1)
+
+# Multiplayer functionality
+const DEFAULT_PORT = 7001 # 7000 is the default in the godot docs so I figure 7001 is safe to use.
+func create_server(port:int=DEFAULT_PORT,max_clients:int=100):
+	var peer = ENetMultiplayerPeer.new()
+	peer.create_server(port,max_clients)
+	multiplayer.multiplayer_peer=peer
+
+	multiplayer.peer_connected.connect(_peer_connected)
+	multiplayer.peer_disconnected.connect(_peer_disconnected)
+
+func create_client(ip:String,port:int=DEFAULT_PORT):
+	var peer = ENetMultiplayerPeer.new()
+	peer.create_client(ip, port)
+	multiplayer.multiplayer_peer = peer
+
+	multiplayer.peer_connected.connect(_peer_connected)
+	multiplayer.peer_disconnected.connect(_peer_disconnected)
+
+	multiplayer.connected_to_server.connect(_connected_to_server)
+	multiplayer.connection_failed.connect(_connection_failed)
+	multiplayer.server_disconnected.connect(_server_disconnected)
+
+func _peer_connected(id:int):
+	print("peer: "+str(multiplayer.get_unique_id())+" receiving conenction from peer: "+str(id))
+
+func _peer_disconnected(id:int):
+	pass
+
+func _connected_to_server():
+	pass
+
+func _connection_failed():
+	pass
+
+func _server_disconnected():
+	pass

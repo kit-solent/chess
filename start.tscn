@@ -35,6 +35,13 @@ offset_right = 895.0
 offset_bottom = 222.0
 placeholder_text = "Join Code"
 
+[node name="my_id" type="Label" parent="."]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 425.0
+offset_right = 340.0
+offset_bottom = 524.0
+
 [connection signal="button_down" from="join" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="host" to="." method="_on_host_button_down"]
 [connection signal="text_changed" from="join_code" to="." method="_on_join_code_text_changed"]
