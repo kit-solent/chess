@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://wvghsdar3xml"]
+[gd_scene load_steps=3 format=3 uid="uid://wvghsdar3xml"]
 
+[ext_resource type="Theme" uid="uid://ceglvrvxing6v" path="res://theme.tres" id="1_a68si"]
 [ext_resource type="Script" path="res://start.gd" id="1_i2iou"]
 
 [node name="start" type="Control"]
@@ -9,7 +10,44 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_a68si")
 script = ExtResource("1_i2iou")
+
+[node name="v_box_container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="head" type="PanelContainer" parent="v_box_container"]
+layout_mode = 2
+
+[node name="row" type="HBoxContainer" parent="v_box_container/head"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="v_box_container/head/row"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Chess"
+
+[node name="label2" type="Label" parent="v_box_container/head/row"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = " - by Max Lang"
+
+[node name="SPACER" type="Control" parent="v_box_container/head/row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="button" type="Button" parent="v_box_container/head/row"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "About"
+
+[node name="body" type="PanelContainer" parent="v_box_container"]
+layout_mode = 2
 
 [node name="join" type="Button" parent="."]
 layout_mode = 0
@@ -29,10 +67,10 @@ text = "Host Game"
 
 [node name="join_code" type="LineEdit" parent="."]
 layout_mode = 0
-offset_left = 204.0
-offset_top = 68.0
-offset_right = 895.0
-offset_bottom = 222.0
+offset_left = 86.0
+offset_top = 475.0
+offset_right = 777.0
+offset_bottom = 629.0
 placeholder_text = "Join Code"
 
 [node name="my_id" type="Label" parent="."]

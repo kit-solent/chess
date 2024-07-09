@@ -1,0 +1,21 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ceglvrvxing6v"]
+
+[ext_resource type="FontFile" uid="uid://ce3wuctyf4lyy" path="res://font.ttf" id="1_th2fb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5tgx0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+anti_aliasing = false
+
+[resource]
+default_font = ExtResource("1_th2fb")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_5tgx0")
