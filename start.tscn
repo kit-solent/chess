@@ -27,59 +27,70 @@ layout_mode = 2
 [node name="row" type="HBoxContainer" parent="v_box_container/head"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="v_box_container/head/row"]
+[node name="control" type="MarginContainer" parent="v_box_container/head/row"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Chess"
 
-[node name="label2" type="Label" parent="v_box_container/head/row"]
+[node name="godot" type="Label" parent="v_box_container/head/row/control"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = " - by Max Lang"
+theme_override_colors/font_color = Color(0.278431, 0.54902, 0.74902, 1)
+theme_override_font_sizes/font_size = 64
+text = "G   o   d   o  t"
+
+[node name="chess" type="Label" parent="v_box_container/head/row/control"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.568456, 0.337023, 0.125131, 1)
+theme_override_font_sizes/font_size = 64
+text = "   C   h   e   s  s"
 
 [node name="SPACER" type="Control" parent="v_box_container/head/row"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="button" type="Button" parent="v_box_container/head/row"]
+[node name="about" type="Button" parent="v_box_container/head/row"]
+custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 32
 text = "About"
+
+[node name="color_rect" type="ColorRect" parent="v_box_container"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
 
 [node name="body" type="PanelContainer" parent="v_box_container"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="join" type="Button" parent="."]
-layout_mode = 0
-offset_left = 395.0
-offset_top = 279.0
-offset_right = 571.0
-offset_bottom = 436.0
+[node name="h_box_container" type="HBoxContainer" parent="v_box_container/body"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="join" type="MarginContainer" parent="v_box_container/body/h_box_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="button" type="Button" parent="v_box_container/body/h_box_container/join"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
 text = "Join Game"
 
-[node name="host" type="Button" parent="."]
-layout_mode = 0
-offset_left = 874.0
-offset_top = 302.0
-offset_right = 1100.0
-offset_bottom = 549.0
+[node name="host" type="MarginContainer" parent="v_box_container/body/h_box_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="button" type="Button" parent="v_box_container/body/h_box_container/host"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
 text = "Host Game"
 
-[node name="join_code" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 86.0
-offset_top = 475.0
-offset_right = 777.0
-offset_bottom = 629.0
-placeholder_text = "Join Code"
-
-[node name="my_id" type="Label" parent="."]
-layout_mode = 0
-offset_left = 188.0
-offset_top = 425.0
-offset_right = 340.0
-offset_bottom = 524.0
-
-[connection signal="button_down" from="join" to="." method="_on_join_button_down"]
-[connection signal="button_down" from="host" to="." method="_on_host_button_down"]
-[connection signal="text_changed" from="join_code" to="." method="_on_join_code_text_changed"]
+[connection signal="button_down" from="v_box_container/body/h_box_container/join/button" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="v_box_container/body/h_box_container/host/button" to="." method="_on_host_button_down"]
