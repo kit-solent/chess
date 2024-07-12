@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://wvghsdar3xml"]
+[gd_scene load_steps=4 format=3 uid="uid://wvghsdar3xml"]
 
 [ext_resource type="Theme" uid="uid://ceglvrvxing6v" path="res://theme.tres" id="1_a68si"]
 [ext_resource type="Script" path="res://start.gd" id="1_i2iou"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1kcs2"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.278431, 0.54902, 0.74902, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="start" type="Control"]
 layout_mode = 3
@@ -92,5 +104,37 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 50
 text = "Host Game"
 
+[node name="margin_container" type="MarginContainer" parent="v_box_container/body"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="panel_container" type="PanelContainer" parent="v_box_container/body/margin_container"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1kcs2")
+
+[node name="tab_container" type="TabContainer" parent="v_box_container/body/margin_container/panel_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+tab_alignment = 1
+
+[node name="About" type="RichTextLabel" parent="v_box_container/body/margin_container/panel_container/tab_container"]
+layout_mode = 2
+theme_override_font_sizes/bold_font_size = 20
+bbcode_enabled = true
+text = "This game was made by Max Lang using the Godot game engine. 
+
+
+[b]Asset credits:[/b]
+
+Font (Ubuntu Regular) was downloaded from [url=\"https://fonts.google.com/specimen/Ubuntu\"]https://fonts.google.com/specimen/Ubuntu[/url].
+
+Board tiles I made myself.
+
+Piece art is from [url=\"https://opengameart.org/content/pixel-chess-pieces\"]https://opengameart.org/content/pixel-chess-pieces[/url]."
+
 [connection signal="button_down" from="v_box_container/body/h_box_container/join/button" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="v_box_container/body/h_box_container/host/button" to="." method="_on_host_button_down"]
+[connection signal="meta_clicked" from="v_box_container/body/margin_container/panel_container/tab_container/About" to="." method="_on_about_meta_clicked"]

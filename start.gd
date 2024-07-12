@@ -48,3 +48,8 @@ func _on_host_button_down():
 
 func _on_join_code_text_changed(new_text):
 	pass # Replace with function body.
+
+
+func _on_about_meta_clicked(meta):
+	if meta in ["https://fonts.google.com/specimen/Ubuntu","https://opengameart.org/content/pixel-chess-pieces"]:
+		OS.shell_open(meta)
