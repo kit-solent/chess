@@ -20,6 +20,10 @@ func _ready():
 	godot_tween.tween_property($v_box_container/head/row/control/godot,"modulate",Color($v_box_container/head/row/control/godot.modulate,1.0),loop_time)
 	chess_tween.tween_property($v_box_container/head/row/control/chess,"modulate",Color($v_box_container/head/row/control/chess.modulate,1.0),loop_time)
 
+	# Both wait forward for a loop
+	godot_tween.tween_property($v_box_container/head/row/control/godot,"modulate",Color($v_box_container/head/row/control/godot.modulate,1.0),loop_time)
+	chess_tween.tween_property($v_box_container/head/row/control/chess,"modulate",Color($v_box_container/head/row/control/chess.modulate,1.0),loop_time)
+
 	# Godot back, Chess stays forward another loop
 	godot_tween.tween_property($v_box_container/head/row/control/godot,"modulate",Color($v_box_container/head/row/control/godot.modulate,0.0),loop_time)
 	chess_tween.tween_property($v_box_container/head/row/control/chess,"modulate",Color($v_box_container/head/row/control/chess.modulate,1.0),loop_time)
@@ -46,10 +50,24 @@ func _on_host_button_down():
 	$my_id.text=str(multiplayer.get_unique_id())
 	$join_code.text=Core.ip_to_code(Core.ip_address)
 
-func _on_join_code_text_changed(new_text):
+func _on_about_meta_clicked(meta):
+	if meta in ["https://fonts.google.com/specimen/Ubuntu","https://opengameart.org/content/pixel-chess-pieces","https://www.svgrepo.com/svg/477430/coin-toss-3"]:
+		OS.shell_open(meta)
+
+func _on_about_button_down():
 	pass # Replace with function body.
 
-
-func _on_about_meta_clicked(meta):
-	if meta in ["https://fonts.google.com/specimen/Ubuntu","https://opengameart.org/content/pixel-chess-pieces"]:
-		OS.shell_open(meta)
+const ALLOWED_CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+func _on_line_edit_text_changed(new_text:String):
+	var pos=$v_box_container/body/joinhost/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/line_edit
+	pos=pos.caret_column
+	var allowed=""
+	for i in new_text:
+		if i in ALLOWED_CHARS:
+			allowed+=i
+		else:
+			pos-=1
+	$v_box_container/body/joinhost/margin_container/joinhost/joinhost/button.disabled=not len(allowed)>0
+	$v_box_container/body/joinhost/margin_container/joinhost/joinhost/button2.disabled=not len(allowed)>0
+	$v_box_container/body/joinhost/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/line_edit.text=allowed
+	$v_box_container/body/joinhost/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/line_edit.caret_column=pos
