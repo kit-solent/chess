@@ -261,6 +261,7 @@ var words = [
 	"receptive"]
 var ip_address:String
 func _ready():
+	DisplayServer.window_set_min_size(Vector2i(1152,648))
 	if OS.has_feature("windows") and OS.has_environment("COMPUTERNAME"): # Windows
 		ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),IP.TYPE_IPV4)
 	elif OS.has_feature("x11") and OS.has_environment("HOSTNAME"): # Linux

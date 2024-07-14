@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="Chess"
+config/description="A chess app made by Max Lang using the Godot game engine."
+config/version="1.0.0"
 run/main_scene="res://start.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://art/icon.svg"
 
 [autoload]
 
@@ -21,4 +23,5 @@ Core="*res://Core.tscn"
 
 [editor]
 
+movie_writer/movie_file="C:/Users/nelso/Desktop/recording.avi"
 naming/node_name_casing=2

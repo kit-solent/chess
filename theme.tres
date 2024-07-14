@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://ceglvrvxing6v"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://ceglvrvxing6v"]
 
 [ext_resource type="FontFile" uid="uid://ce3wuctyf4lyy" path="res://font.ttf" id="1_th2fb"]
 
@@ -69,6 +69,84 @@ corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_snmsr"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vrcd"]
+bg_color = Color(0.0552707, 0.165009, 0.244077, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0.568456, 0.337023, 0.125131, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfkic"]
+bg_color = Color(0.0552707, 0.165009, 0.244077, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0.568456, 0.337023, 0.125131, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uw85c"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.568456, 0.337023, 0.125131, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f14cl"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.568456, 0.337023, 0.125131, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpv86"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.568456, 0.337023, 0.125131, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdmnu"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.568456, 0.337023, 0.125131, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5tgx0"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -94,6 +172,12 @@ Button/styles/hover = SubResource("StyleBoxFlat_22g6g")
 Button/styles/normal = SubResource("StyleBoxFlat_n3igm")
 Button/styles/pressed = SubResource("StyleBoxFlat_abkkq")
 CheckButton/styles/focus = SubResource("StyleBoxEmpty_snmsr")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_8vrcd")
+OptionButton/styles/hover_mirrored = SubResource("StyleBoxFlat_rfkic")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_uw85c")
+OptionButton/styles/normal_mirrored = SubResource("StyleBoxFlat_f14cl")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_xpv86")
+OptionButton/styles/pressed_mirrored = SubResource("StyleBoxFlat_bdmnu")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_5tgx0")
 TabContainer/styles/panel = SubResource("StyleBoxFlat_cq61f")
 TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_giqoq")
