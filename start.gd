@@ -32,6 +32,12 @@ func _ready():
 	godot(godot_tween,loop_time,true)
 	chess(chess_tween,loop_time,true)
 
+@onready var box1=%join_code_field/line_edit
+func _process(delta):
+	#if get_viewport().gui_get_focus_owner() is box1:
+	#	pass
+	pass
+
 # Title animation stuff
 func godot(tween,time,forward=true):
 	tween.tween_property(%godot_title_label,"modulate",Color(%godot_title_label.modulate,1.0 if forward else 0.0),time)
@@ -42,6 +48,7 @@ func chess(tween,time,forward=true):
 
 func _on_join_button_down():
 	$main/body/body.current_tab=2
+	%join_code_field/line_edit.grab_focus()
 
 func _on_host_button_down():
 	$main/body/body.current_tab=1

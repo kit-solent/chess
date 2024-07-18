@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://wvghsdar3xml"]
+[gd_scene load_steps=12 format=3 uid="uid://wvghsdar3xml"]
 
 [ext_resource type="Theme" uid="uid://ceglvrvxing6v" path="res://theme.tres" id="1_a68si"]
 [ext_resource type="Script" path="res://start.gd" id="1_i2iou"]
@@ -41,6 +41,30 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vioov"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70eqi"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.278431, 0.54902, 0.74902, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1kcs2"]
 bg_color = Color(0, 0, 0, 1)
@@ -118,20 +142,22 @@ size_flags_vertical = 3
 
 [node name="body" type="TabContainer" parent="main/body"]
 layout_mode = 2
+current_tab = 2
 tabs_visible = false
 
-[node name="margin_container" type="MarginContainer" parent="main/body/body"]
+[node name="joinhost" type="MarginContainer" parent="main/body/body"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="joinhost" type="VBoxContainer" parent="main/body/body/margin_container"]
+[node name="joinhost" type="VBoxContainer" parent="main/body/body/joinhost"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="margin_container" type="MarginContainer" parent="main/body/body/margin_container/joinhost"]
+[node name="margin_container" type="MarginContainer" parent="main/body/body/joinhost/joinhost"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 32
@@ -139,28 +165,28 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="panel_container" type="PanelContainer" parent="main/body/body/margin_container/joinhost/margin_container"]
+[node name="panel_container" type="PanelContainer" parent="main/body/body/joinhost/joinhost/margin_container"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_43p2j")
 
-[node name="margin_container" type="MarginContainer" parent="main/body/body/margin_container/joinhost/margin_container/panel_container"]
+[node name="margin_container" type="MarginContainer" parent="main/body/body/joinhost/joinhost/margin_container/panel_container"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="h_box_container" type="HBoxContainer" parent="main/body/body/margin_container/joinhost/margin_container/panel_container/margin_container"]
+[node name="h_box_container" type="HBoxContainer" parent="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="main/body/body/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container"]
+[node name="label" type="Label" parent="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container/h_box_container"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 42
 text = "Enter Username:"
 
-[node name="margin_container" type="MarginContainer" parent="main/body/body/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container"]
+[node name="margin_container" type="MarginContainer" parent="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container/h_box_container"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
@@ -168,7 +194,7 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 32
 
-[node name="username_lineedit" type="LineEdit" parent="main/body/body/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container"]
+[node name="username_lineedit" type="LineEdit" parent="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
@@ -177,12 +203,12 @@ alignment = 1
 max_length = 16
 expand_to_text_length = true
 
-[node name="joinhost" type="HBoxContainer" parent="main/body/body/margin_container/joinhost"]
+[node name="joinhost" type="HBoxContainer" parent="main/body/body/joinhost/joinhost"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="join_button" type="Button" parent="main/body/body/margin_container/joinhost/joinhost"]
+[node name="join_button" type="Button" parent="main/body/body/joinhost/joinhost/joinhost"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -191,7 +217,7 @@ theme_override_font_sizes/font_size = 50
 disabled = true
 text = "Join Game"
 
-[node name="host_button" type="Button" parent="main/body/body/margin_container/joinhost/joinhost"]
+[node name="host_button" type="Button" parent="main/body/body/joinhost/joinhost/joinhost"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -400,9 +426,55 @@ materialistic"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="JOIN PLACEHOLDER" type="Control" parent="main/body/body"]
-visible = false
+[node name="join" type="CenterContainer" parent="main/body/body"]
 layout_mode = 2
+
+[node name="v_box_container" type="VBoxContainer" parent="main/body/body/join"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="main/body/body/join/v_box_container"]
+layout_mode = 2
+text = "Join Code's are case insensitive."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="join_code_field" type="HBoxContainer" parent="main/body/body/join/v_box_container"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="line_edit" type="LineEdit" parent="main/body/body/join/v_box_container/join_code_field"]
+custom_minimum_size = Vector2(220, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_vioov")
+theme_override_styles/focus = SubResource("StyleBoxFlat_70eqi")
+placeholder_text = "materialistic"
+alignment = 1
+
+[node name="line_edit2" type="LineEdit" parent="main/body/body/join/v_box_container/join_code_field"]
+custom_minimum_size = Vector2(220, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_vioov")
+theme_override_styles/focus = SubResource("StyleBoxFlat_70eqi")
+alignment = 1
+
+[node name="line_edit3" type="LineEdit" parent="main/body/body/join/v_box_container/join_code_field"]
+custom_minimum_size = Vector2(220, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_vioov")
+theme_override_styles/focus = SubResource("StyleBoxFlat_70eqi")
+alignment = 1
+
+[node name="line_edit4" type="LineEdit" parent="main/body/body/join/v_box_container/join_code_field"]
+custom_minimum_size = Vector2(220, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_vioov")
+theme_override_styles/focus = SubResource("StyleBoxFlat_70eqi")
+alignment = 1
 
 [node name="about" type="MarginContainer" parent="main/body"]
 visible = false
@@ -453,9 +525,9 @@ Coin icon is from [url=\"https://www.svgrepo.com/svg/477430/coin-toss-3\"]https:
 © Max Lang 2024"
 
 [connection signal="button_down" from="main/head/row/about_button" to="." method="_on_about_button_down"]
-[connection signal="text_changed" from="main/body/body/margin_container/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/username_lineedit" to="." method="_on_line_edit_text_changed"]
-[connection signal="button_down" from="main/body/body/margin_container/joinhost/joinhost/join_button" to="." method="_on_join_button_down"]
-[connection signal="button_down" from="main/body/body/margin_container/joinhost/joinhost/host_button" to="." method="_on_host_button_down"]
+[connection signal="text_changed" from="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/username_lineedit" to="." method="_on_line_edit_text_changed"]
+[connection signal="button_down" from="main/body/body/joinhost/joinhost/joinhost/join_button" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="main/body/body/joinhost/joinhost/joinhost/host_button" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/time/time_controls_enabled" to="." method="_on_time_controls_enabled_button_down"]
 [connection signal="meta_clicked" from="main/body/about/p/t/About" to="." method="_on_about_meta_clicked"]
 [connection signal="meta_clicked" from="main/body/about/p/t/Credits" to="." method="_on_about_meta_clicked"]
