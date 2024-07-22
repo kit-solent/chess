@@ -431,6 +431,7 @@ layout_mode = 2
 
 [node name="v_box_container" type="VBoxContainer" parent="main/body/body/join"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="label" type="Label" parent="main/body/body/join/v_box_container"]
 layout_mode = 2
@@ -443,7 +444,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="line_edit" type="LineEdit" parent="main/body/body/join/v_box_container/join_code_field"]
+[node name="line_edit1" type="LineEdit" parent="main/body/body/join/v_box_container/join_code_field"]
 custom_minimum_size = Vector2(220, 80)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
@@ -529,5 +530,13 @@ Coin icon is from [url=\"https://www.svgrepo.com/svg/477430/coin-toss-3\"]https:
 [connection signal="button_down" from="main/body/body/joinhost/joinhost/joinhost/join_button" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="main/body/body/joinhost/joinhost/joinhost/host_button" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/time/time_controls_enabled" to="." method="_on_time_controls_enabled_button_down"]
+[connection signal="focus_exited" from="main/body/body/join/v_box_container/join_code_field/line_edit1" to="." method="_on_line_edit_1_focus_exited"]
+[connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit1" to="." method="_on_line_edit_1_text_changed"]
+[connection signal="focus_exited" from="main/body/body/join/v_box_container/join_code_field/line_edit2" to="." method="_on_line_edit_2_focus_exited"]
+[connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit2" to="." method="_on_line_edit_2_text_changed"]
+[connection signal="focus_exited" from="main/body/body/join/v_box_container/join_code_field/line_edit3" to="." method="_on_line_edit_3_focus_exited"]
+[connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit3" to="." method="_on_line_edit_3_text_changed"]
+[connection signal="focus_exited" from="main/body/body/join/v_box_container/join_code_field/line_edit4" to="." method="_on_line_edit_4_focus_exited"]
+[connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit4" to="." method="_on_line_edit_4_text_changed"]
 [connection signal="meta_clicked" from="main/body/about/p/t/About" to="." method="_on_about_meta_clicked"]
 [connection signal="meta_clicked" from="main/body/about/p/t/Credits" to="." method="_on_about_meta_clicked"]
