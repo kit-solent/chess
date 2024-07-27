@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://sdn4pluo3uon"]
+
+[ext_resource type="Script" path="res://testing/main.gd" id="1_61ca0"]
+
+[node name="main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_61ca0")
+
+[node name="line_edit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 205.0
+offset_right = 981.0
+offset_bottom = 407.0
+
+[connection signal="text_changed" from="line_edit" to="." method="_on_line_edit_text_changed"]
