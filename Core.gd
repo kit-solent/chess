@@ -266,6 +266,10 @@ var words = [
 	"substantial",
 	"receptive"]
 var ip_address:String
+
+
+var pieces={}
+
 func _ready():
 	DisplayServer.window_set_min_size(Vector2i(1152,648))
 	if OS.has_feature("windows") and OS.has_environment("COMPUTERNAME"): # Windows
@@ -274,6 +278,10 @@ func _ready():
 		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),IP.TYPE_IPV4)
 	elif OS.has_feature("OSX") and OS.has_environment("HOSTNAME"): # MacOS
 		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),IP.TYPE_IPV4)
+	
+	for a in ["white","black"]:
+		for b in ["king","queen","rook","knight","bishop","pawn"]:
+			pieces[a+" "+b] = load("res://art/"+a+"_"+b+".png")
 
 func ip_to_code(ip:String):
 	var x = ""

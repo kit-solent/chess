@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://hovqokurqt0x"]
+
+[ext_resource type="StyleBox" uid="uid://d0xtjaqorjx3" path="res://black_background.tres" id="1_8rck0"]
+[ext_resource type="Script" path="res://tile.gd" id="1_8xx5c"]
+
+[node name="tile" type="PanelContainer"]
+offset_right = 64.0
+offset_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("1_8rck0")
+script = ExtResource("1_8xx5c")
+
+[node name="margin_container" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="texture_rect" type="TextureRect" parent="margin_container"]
+layout_mode = 2
+expand_mode = 1

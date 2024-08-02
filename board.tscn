@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkcg0otewfvx"]
+[gd_scene load_steps=2 format=3 uid="uid://bkcg0otewfvx"]
 
 [ext_resource type="Script" path="res://board.gd" id="1_6cxt8"]
-[ext_resource type="TileSet" uid="uid://u5fya5732ft3" path="res://tileset.tres" id="2_ipb50"]
 
 [node name="board" type="Control"]
 layout_mode = 3
@@ -12,18 +11,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6cxt8")
 
-[node name="tile_map" type="TileMap" parent="."]
-tile_set = ExtResource("2_ipb50")
-format = 2
-layer_0/name = "Board"
-layer_0/tile_data = PackedInt32Array(0, 0, 0, 65537, 0, 0, 131074, 0, 0, 196611, 0, 0, 262148, 0, 0, 327685, 0, 0, 393222, 0, 0, 458759, 0, 0, 327687, 0, 0, 196615, 0, 0, 65543, 0, 0, 6, 0, 0, 65541, 0, 0, 131078, 0, 0, 196613, 0, 0, 262150, 0, 0, 131076, 0, 0, 65539, 0, 0, 2, 0, 0, 4, 0, 0, 131072, 0, 0, 196609, 0, 0, 262146, 0, 0, 327683, 0, 0, 393220, 0, 0, 458757, 0, 0, 458755, 0, 0, 393218, 0, 0, 327681, 0, 0, 262144, 0, 0, 393216, 0, 0, 458753, 0, 0, 458752, 1, 0, 393217, 1, 0, 327680, 1, 0, 262145, 1, 0, 196608, 1, 0, 131073, 1, 0, 65536, 1, 0, 1, 1, 0, 65538, 1, 0, 3, 1, 0, 65540, 1, 0, 131077, 1, 0, 196612, 1, 0, 131075, 1, 0, 196610, 1, 0, 262147, 1, 0, 327684, 1, 0, 262149, 1, 0, 327686, 1, 0, 393221, 1, 0, 458756, 1, 0, 393219, 1, 0, 327682, 1, 0, 458754, 1, 0, 458758, 1, 0, 393223, 1, 0, 262151, 1, 0, 196614, 1, 0, 131079, 1, 0, 65542, 1, 0, 7, 1, 0, 5, 1, 0)
-layer_1/name = "Pieces"
-layer_1/tile_data = PackedInt32Array(458756, 4, 0, 458755, 5, 0, 458752, 6, 0, 458759, 6, 0, 458753, 7, 0, 458758, 7, 0, 458754, 8, 0, 458757, 8, 0, 393216, 9, 0, 393217, 9, 0, 393218, 9, 0, 393219, 9, 0, 393220, 9, 0, 393221, 9, 0, 393222, 9, 0, 393223, 9, 0, 2, 14, 0, 5, 14, 0, 4, 10, 0, 3, 11, 0, 0, 12, 0, 7, 12, 0, 1, 13, 0, 6, 13, 0, 65536, 15, 0, 65537, 15, 0, 65538, 15, 0, 65539, 15, 0, 65540, 15, 0, 65543, 15, 0, 65542, 15, 0, 65541, 15, 0)
+[node name="panel_container" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="center_container" type="CenterContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="control" type="Control" parent="center_container"]
+[node name="aspect_ratio_container" type="AspectRatioContainer" parent="panel_container"]
 layout_mode = 2
+
+[node name="grid_container" type="GridContainer" parent="panel_container/aspect_ratio_container"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 8
