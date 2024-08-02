@@ -25,3 +25,7 @@ Core="*res://Core.tscn"
 
 movie_writer/movie_file="C:/Users/nelso/Desktop/recording.avi"
 naming/node_name_casing=2
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

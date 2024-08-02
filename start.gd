@@ -106,12 +106,19 @@ func _on_join_button_down():
 	$main/body/body.current_tab=2
 	%join_code_field/line_edit1.grab_focus()
 
+var is_host
 func _on_host_button_down():
+	is_host = true
 	$main/body/body.current_tab=1
 	Core.create_server()
+	Core.peer_connected.connect(_peer_connected)
 	var code=Core.ip_to_code(Core.ip_address)
 	%join_code.text=code.replace(" ","\n")
 	$main/body/body/host/settings/margin_container/v_box_container/host_username.text="Your username is:\n"+%username_lineedit.text
+
+func _peer_connected(id):
+	if is_host:
+		pass
 
 func _on_about_meta_clicked(meta):
 	if meta in ["https://fonts.google.com/specimen/Ubuntu","https://opengameart.org/content/pixel-chess-pieces","https://www.svgrepo.com/svg/477430/coin-toss-3"]:

@@ -1,5 +1,11 @@
 extends Node
 
+signal peer_connected
+signal peer_disconnected
+signal connected_to_server
+signal connection_failed
+signal server_disconnected
+
 const IP_DELIMITER = "."
 const CODE_DELIMITER = " "
 var words = [
@@ -304,16 +310,16 @@ func create_client(ip:String,port:int=DEFAULT_PORT):
 	multiplayer.server_disconnected.connect(_server_disconnected)
 
 func _peer_connected(id:int):
-	print("peer: "+str(multiplayer.get_unique_id())+" receiving conenction from peer: "+str(id))
+	peer_connected.emit(id)
 
 func _peer_disconnected(id:int):
-	pass
+	peer_disconnected.emit(id)
 
 func _connected_to_server():
-	pass
+	connected_to_server.emit()
 
 func _connection_failed():
-	pass
+	connection_failed.emit()
 
 func _server_disconnected():
-	pass
+	server_disconnected.emit()
