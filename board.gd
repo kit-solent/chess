@@ -29,5 +29,23 @@ func _ready():
 		grid.get_children()[index].set_piece("white "+i)
 		index += 1
 
+var selected_tile = null
 func tile_clicked(tile_id):
-	pass
+	can_move(tile_id,tile_id+1)
+	print("tile clicked: "+str(tile_id))
+	if selected_tile:
+		selected_tile.deselect()
+	if $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id].has_piece():
+		$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id].select()
+		selected_tile = $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id]
+
+func 
+
+func can_move(start,stop):
+	var piece_type = $panel_container/aspect_ratio_container/grid_container.get_children()[start].piece.split(" ")[-1]
+	var initial_valid_moves = []
+	if piece_type in ["rook","queen"]:
+		initial_valid_moves.extend([])
+
+
+

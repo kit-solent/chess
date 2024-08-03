@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://wvghsdar3xml"]
 
-[ext_resource type="Theme" uid="uid://ceglvrvxing6v" path="res://theme.tres" id="1_a68si"]
+[ext_resource type="Theme" uid="uid://ceglvrvxing6v" path="res://resources/theme.tres" id="1_a68si"]
 [ext_resource type="Script" path="res://start.gd" id="1_i2iou"]
 [ext_resource type="Texture2D" uid="uid://bqi6pvkn4sovq" path="res://art/white_king.png" id="3_rxgfh"]
 [ext_resource type="Texture2D" uid="uid://dh4i8u2rkn7of" path="res://art/black_king.png" id="4_swq01"]

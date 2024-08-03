@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=17 format=3 uid="uid://ceglvrvxing6v"]
 
-[ext_resource type="FontFile" uid="uid://ce3wuctyf4lyy" path="res://font.ttf" id="1_th2fb"]
+[ext_resource type="FontFile" uid="uid://ce3wuctyf4lyy" path="res://resources/font.ttf" id="1_th2fb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7447l"]
 bg_color = Color(0, 0, 0, 1)

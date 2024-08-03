@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://hovqokurqt0x"]
 
-[ext_resource type="StyleBox" uid="uid://d0xtjaqorjx3" path="res://black_background.tres" id="1_8rck0"]
+[ext_resource type="StyleBox" uid="uid://d0xtjaqorjx3" path="res://resources/black_background.tres" id="1_8rck0"]
 [ext_resource type="Script" path="res://tile.gd" id="1_8xx5c"]
 
 [node name="tile" type="PanelContainer"]
@@ -21,3 +21,5 @@ theme_override_constants/margin_bottom = 4
 [node name="texture_rect" type="TextureRect" parent="margin_container"]
 layout_mode = 2
 expand_mode = 1
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
