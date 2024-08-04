@@ -39,7 +39,7 @@ func tile_clicked(tile_id):
 		$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id].select()
 		selected_tile = $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id]
 
-func 
+
 
 func can_move(start,stop):
 	var piece_type = $panel_container/aspect_ratio_container/grid_container.get_children()[start].piece.split(" ")[-1]
