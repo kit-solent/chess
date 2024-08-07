@@ -268,7 +268,7 @@ var words = [
 var ip_address:String
 
 
-var pieces={}
+var pieces = {}
 
 func _ready():
 	DisplayServer.window_set_min_size(Vector2i(1152,648))
