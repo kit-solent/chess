@@ -2,8 +2,8 @@ extends PanelContainer
 
 signal clicked
 
-var white = preload("res://white_background.tres")
-var black = preload("res://black_background.tres")
+var white = preload("res://resources/white_background.tres")
+var black = preload("res://resources/black_background.tres")
 var piece:String=""
 
 func set_bg(is_white:bool=true):
