@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://wvghsdar3xml"]
+[gd_scene load_steps=13 format=3 uid="uid://wvghsdar3xml"]
 
 [ext_resource type="Theme" uid="uid://ceglvrvxing6v" path="res://resources/theme.tres" id="1_a68si"]
 [ext_resource type="Script" path="res://start.gd" id="1_i2iou"]
@@ -29,6 +29,19 @@ corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swnep"]
+bg_color = Color(0.0552707, 0.165009, 0.244077, 1)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0.278431, 0.54902, 0.74902, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2bht6"]
 bg_color = Color(0.0552707, 0.165009, 0.244077, 1)
@@ -382,6 +395,27 @@ theme_override_font_sizes/font_size = 32
 text = "Your username is:
 "
 horizontal_alignment = 1
+
+[node name="panel_container3" type="PanelContainer" parent="main/body/body/host/settings/margin_container/v_box_container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_swnep")
+
+[node name="scroll_container" type="ScrollContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="v_box_container" type="VBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="default_message" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container/v_box_container"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "When players join the game they will appear here."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="color_rect" type="ColorRect" parent="main/body/body/host"]
 custom_minimum_size = Vector2(4, 0)

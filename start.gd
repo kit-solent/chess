@@ -116,9 +116,13 @@ func _on_host_button_down():
 	%join_code.text=code.replace(" ","\n")
 	$main/body/body/host/settings/margin_container/v_box_container/host_username.text="Your username is:\n"+%username_lineedit.text
 
+@onready var player_menu = $main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container/v_box_container
 func _peer_connected(id):
 	if is_host:
-		pass
+		player_menu.get_node("default_message").hide()
+		var new = load("res://player_thingy.tscn").instantiate()
+		new
+		player_menu.add_child(new)
 
 func _on_about_meta_clicked(meta):
 	if meta in ["https://fonts.google.com/specimen/Ubuntu","https://opengameart.org/content/pixel-chess-pieces","https://www.svgrepo.com/svg/477430/coin-toss-3"]:
