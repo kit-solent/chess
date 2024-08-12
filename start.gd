@@ -115,13 +115,14 @@ func _on_host_button_down():
 	var code=Core.ip_to_code(Core.ip_address)
 	%join_code.text=code.replace(" ","\n")
 	$main/body/body/host/settings/margin_container/v_box_container/host_username.text="Your username is:\n"+%username_lineedit.text
+	Core.username = %username_lineedit.text
 
 @onready var player_menu = $main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container/v_box_container
 func _peer_connected(id):
 	if is_host:
 		player_menu.get_node("default_message").hide()
 		var new = load("res://player_thingy.tscn").instantiate()
-		new
+		new.set_text()
 		player_menu.add_child(new)
 
 func _on_about_meta_clicked(meta):

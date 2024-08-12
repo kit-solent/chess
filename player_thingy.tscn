@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://player_thingy.gd" id="1_e85u3"]
 
 [node name="h_box_container" type="HBoxContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
 alignment = 2
 script = ExtResource("1_e85u3")
 

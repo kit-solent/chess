@@ -267,6 +267,10 @@ var words = [
 	"receptive"]
 var ip_address:String
 
+var username:String
+var connected_peers = [
+	# in the format: id: "username",
+]
 
 var pieces = {}
 
