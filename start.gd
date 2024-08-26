@@ -92,8 +92,13 @@ func _on_line_edit_3_text_submitted(new_text):
 
 func _on_line_edit_4_text_submitted(new_text):
 	Core.create_client(Core.code_to_ip(box1.text+" "+box2.text+" "+box3.text+" "+box4.text))
+	Core.username_recieved.connect(_username_recieved)
+	$main/body/body.current_tab = 3 # the wait for host screen.
 
-
+func _username_recieved(username):
+	var lab = Label.new()
+	lab.text = username
+	%player_join_game_thingy.add_child(lab)
 
 # Title animation stuff
 func godot(tween,time,forward=true):
@@ -102,9 +107,11 @@ func godot(tween,time,forward=true):
 func chess(tween,time,forward=true):
 	tween.tween_property(%chess_title_label,"modulate",Color(%chess_title_label.modulate,1.0 if forward else 0.0),time)
 
+
 func _on_join_button_down():
 	$main/body/body.current_tab=2
 	%join_code_field/line_edit1.grab_focus()
+	Core.username = %username_lineedit.text
 
 var is_host
 func _on_host_button_down():
@@ -117,12 +124,13 @@ func _on_host_button_down():
 	$main/body/body/host/settings/margin_container/v_box_container/host_username.text="Your username is:\n"+%username_lineedit.text
 	Core.username = %username_lineedit.text
 
-@onready var player_menu = $main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container/v_box_container
+@onready var player_menu = %player_join_game_thingy
 func _peer_connected(id):
 	if is_host:
 		player_menu.get_node("default_message").hide()
 		var new = load("res://player_thingy.tscn").instantiate()
-		new.set_text()
+		new.set_text("<USER: "+str(id)+">") # <USER: 1234> is a placeholder untill the username is sent through.
+		new.name = str(id)
 		player_menu.add_child(new)
 
 func _on_about_meta_clicked(meta):

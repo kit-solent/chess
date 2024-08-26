@@ -405,12 +405,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_swnep")
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="v_box_container" type="VBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container"]
+[node name="player_join_game_thingy" type="VBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="default_message" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container/v_box_container"]
+[node name="default_message" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container3/scroll_container/player_join_game_thingy"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "When players join the game they will appear here."
@@ -519,6 +520,20 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vioov")
 theme_override_styles/focus = SubResource("StyleBoxFlat_70eqi")
 placeholder_text = "here"
 alignment = 1
+
+[node name="wait_for_host_start" type="Label" parent="main/body/body"]
+visible = false
+custom_minimum_size = Vector2(144, 81)
+layout_mode = 2
+theme_override_font_sizes/font_size = 43
+text = "Please wait for the host to start the game.
+:)
+
+Also, please consider learning the worlds most suporior and awesome instument, the Saxophone.
+🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="about" type="MarginContainer" parent="main/body"]
 visible = false

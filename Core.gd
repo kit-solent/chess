@@ -6,6 +6,8 @@ signal connected_to_server
 signal connection_failed
 signal server_disconnected
 
+signal username_recieved(username)
+
 const IP_DELIMITER = "."
 const CODE_DELIMITER = " "
 var words = [
@@ -268,9 +270,9 @@ var words = [
 var ip_address:String
 
 var username:String
-var connected_peers = [
+var connected_peers = {
 	# in the format: id: "username",
-]
+}
 
 var pieces = {}
 
@@ -322,6 +324,7 @@ func create_client(ip:String,port:int=DEFAULT_PORT):
 	multiplayer.server_disconnected.connect(_server_disconnected)
 
 func _peer_connected(id:int):
+	recieve_username.rpc_id(id,username)
 	peer_connected.emit(id)
 
 func _peer_disconnected(id:int):
@@ -335,3 +338,7 @@ func _connection_failed():
 
 func _server_disconnected():
 	server_disconnected.emit()
+
+@rpc
+func recieve_username(username):
+	username_recieved.emit(username)
