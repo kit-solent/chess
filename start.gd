@@ -1,7 +1,15 @@
 extends Control
 
+@onready var player_menu = %player_join_game_thingy
+var tabs:Dictionary # a dictionary of tabs in the form "tab name": tab index. Used to look up tabs by name.
+
 func _ready():
-	$main/body/body.current_tab=0
+	var counter = 0
+	for i in $main/body/body.get_children():
+		tabs[i.name] = counter
+		counter += 1
+	
+	$main/body/body.current_tab=tabs["joinhost"]
 	
 	var godot_tween=get_tree().create_tween()
 	var chess_tween=get_tree().create_tween()
@@ -31,17 +39,76 @@ func _ready():
 	# Both stay
 	godot(godot_tween,loop_time,true)
 	chess(chess_tween,loop_time,true)
+	
+	Core.peer_connected.connect(_peer_connected)
+	Core.peer_disconnected.connect(_peer_disconnected)
+	Core.connected_to_server.connect(_connected_to_server)
+	Core.connection_failed.connect(_connection_failed)
+	Core.server_disconnected.connect(_server_disconnected)
+	
+	Core.username_recieved.connect(_username_recieved)
+
+# Title animation stuff
+func godot(tween,time,forward=true):
+	tween.tween_property(%godot_title_label,"modulate",Color(%godot_title_label.modulate,1.0 if forward else 0.0),time)
+
+func chess(tween,time,forward=true):
+	tween.tween_property(%chess_title_label,"modulate",Color(%chess_title_label.modulate,1.0 if forward else 0.0),time)
+
+
+func _peer_connected(id):
+	if is_host:
+		player_menu.get_node("default_message").hide()
+		var new = load("res://player_thingy.tscn").instantiate()
+		new.set_text("<USER: "+str(id)+">") # <USER: 1234> is a placeholder untill the username is sent through.
+		new.name = str(id)
+		player_menu.add_child(new)
+
+func _peer_disconnected(id):
+	pass
+
+func _connected_to_server():
+	if $main/body/body.current_tab == tabs["wait_for_host_connection"]:
+		$main/body/body.current_tab = tabs["wait_for_host_start"]
+
+func _connection_failed():
+	print("hmmm")
+	print($main/body/body.get_children()[$main/body/body.current_tab].name)
+	if $main/body/body.current_tab == tabs["wait_for_host_connection"]:
+		$main/body/body.current_tab = tabs["join"]
+	$main/body/body/join/v_box_container/label.text = "Connection Failed\nCheck that you have entered the join code correctly and that your internet connection is stable and try again."
+
+func _server_disconnected():
+	pass
+
+func _username_recieved(username,id):
+	print("getting username in start.gd")
+	var lab = Label.new()
+	lab.text = username
+	%player_join_game_thingy.add_child(lab)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @onready var box1=%join_code_field/line_edit1
 @onready var box2=%join_code_field/line_edit2
 @onready var box3=%join_code_field/line_edit3
 @onready var box4=%join_code_field/line_edit4
 
-
-func _process(delta):
-	#if get_viewport().gui_get_focus_owner() is box1:
-	#	pass
-	pass
 
 const CODE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 var current_code = ""
@@ -91,32 +158,19 @@ func _on_line_edit_3_text_submitted(new_text):
 	box4.grab_focus()
 
 func _on_line_edit_4_text_submitted(new_text):
+	$main/body/body.current_tab = tabs["wait_for_host_connection"]
 	Core.create_client(Core.code_to_ip(box1.text+" "+box2.text+" "+box3.text+" "+box4.text))
 	Core.username_recieved.connect(_username_recieved)
-	$main/body/body.current_tab = 3 # the wait for host screen.
-
-func _username_recieved(username):
-	var lab = Label.new()
-	lab.text = username
-	%player_join_game_thingy.add_child(lab)
-
-# Title animation stuff
-func godot(tween,time,forward=true):
-	tween.tween_property(%godot_title_label,"modulate",Color(%godot_title_label.modulate,1.0 if forward else 0.0),time)
-
-func chess(tween,time,forward=true):
-	tween.tween_property(%chess_title_label,"modulate",Color(%chess_title_label.modulate,1.0 if forward else 0.0),time)
-
 
 func _on_join_button_down():
-	$main/body/body.current_tab=2
+	$main/body/body.current_tab=tabs["join"]
 	%join_code_field/line_edit1.grab_focus()
 	Core.username = %username_lineedit.text
 
 var is_host
 func _on_host_button_down():
 	is_host = true
-	$main/body/body.current_tab=1
+	$main/body/body.current_tab=tabs["host"]
 	Core.create_server()
 	Core.peer_connected.connect(_peer_connected)
 	var code=Core.ip_to_code(Core.ip_address)
@@ -124,21 +178,12 @@ func _on_host_button_down():
 	$main/body/body/host/settings/margin_container/v_box_container/host_username.text="Your username is:\n"+%username_lineedit.text
 	Core.username = %username_lineedit.text
 
-@onready var player_menu = %player_join_game_thingy
-func _peer_connected(id):
-	if is_host:
-		player_menu.get_node("default_message").hide()
-		var new = load("res://player_thingy.tscn").instantiate()
-		new.set_text("<USER: "+str(id)+">") # <USER: 1234> is a placeholder untill the username is sent through.
-		new.name = str(id)
-		player_menu.add_child(new)
-
 func _on_about_meta_clicked(meta):
 	if meta in ["https://fonts.google.com/specimen/Ubuntu","https://opengameart.org/content/pixel-chess-pieces","https://www.svgrepo.com/svg/477430/coin-toss-3"]:
 		OS.shell_open(meta)
 
 func _on_about_button_down():
-	pass #
+	pass # TODO
 
 const ALLOWED_CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123567890 _-."
 func _on_line_edit_text_changed(new_text:String):

@@ -1,15 +1,17 @@
 extends Node
 
-signal peer_connected
-signal peer_disconnected
+signal peer_connected(id)
+signal peer_disconnected(id)
 signal connected_to_server
 signal connection_failed
 signal server_disconnected
 
-signal username_recieved(username)
+signal username_recieved(username,id)
 
+const DEFAULT_PORT = 7001 # 7000 is the default in the godot docs so I figure 7001 is safe to use.
 const IP_DELIMITER = "."
 const CODE_DELIMITER = " "
+
 var words = [
 	"bath",
 	"sniff",
@@ -269,6 +271,7 @@ var words = [
 	"receptive"]
 var ip_address:String
 
+
 var username:String
 var connected_peers = {
 	# in the format: id: "username",
@@ -288,6 +291,14 @@ func _ready():
 	for a in ["white","black"]:
 		for b in ["king","queen","rook","knight","bishop","pawn"]:
 			pieces[a+" "+b] = load("res://art/"+a+"_"+b+".png")
+	
+	# multiplayer signals (all peers)
+	multiplayer.peer_connected.connect(_peer_connected)
+	multiplayer.peer_disconnected.connect(_peer_disconnected)
+	# clients only
+	multiplayer.connected_to_server.connect(_connected_to_server)
+	multiplayer.connection_failed.connect(_connection_failed)
+	multiplayer.server_disconnected.connect(_server_disconnected)
 
 func ip_to_code(ip:String):
 	var x = ""
@@ -302,30 +313,25 @@ func code_to_ip(code:String):
 	return x.left(-1)
 
 # Multiplayer functionality
-const DEFAULT_PORT = 7001 # 7000 is the default in the godot docs so I figure 7001 is safe to use.
 func create_server(port:int=DEFAULT_PORT,max_clients:int=100):
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(port,max_clients)
-	multiplayer.multiplayer_peer=peer
-
-	multiplayer.peer_connected.connect(_peer_connected)
-	multiplayer.peer_disconnected.connect(_peer_disconnected)
+	var err = peer.create_server(port,max_clients)
+	if err:
+		print("Failed to create server. Whacky, huh?")
+	else:
+		multiplayer.multiplayer_peer=peer
 
 func create_client(ip:String,port:int=DEFAULT_PORT):
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip, port)
-	multiplayer.multiplayer_peer = peer
-
-	multiplayer.peer_connected.connect(_peer_connected)
-	multiplayer.peer_disconnected.connect(_peer_disconnected)
-
-	multiplayer.connected_to_server.connect(_connected_to_server)
-	multiplayer.connection_failed.connect(_connection_failed)
-	multiplayer.server_disconnected.connect(_server_disconnected)
+	var err = peer.create_client(ip, port)
+	if err:
+		_connection_failed()
+	else:
+		multiplayer.multiplayer_peer = peer
 
 func _peer_connected(id:int):
-	recieve_username.rpc_id(id,username)
 	peer_connected.emit(id)
+	transmit_data.rpc_id(id,username)
 
 func _peer_disconnected(id:int):
 	peer_disconnected.emit(id)
@@ -339,6 +345,6 @@ func _connection_failed():
 func _server_disconnected():
 	server_disconnected.emit()
 
-@rpc
-func recieve_username(username):
-	username_recieved.emit(username)
+@rpc("any_peer","reliable")
+func transmit_data(username):
+	username_recieved.emit(username,multiplayer.get_remote_sender_id())
