@@ -47,6 +47,8 @@ func _ready():
 	Core.server_disconnected.connect(_server_disconnected)
 	
 	Core.username_recieved.connect(_username_recieved)
+	
+	Core.backspace.connect(_backspace)
 
 # Title animation stuff
 func godot(tween,time,forward=true):
@@ -104,10 +106,10 @@ func _username_recieved(username,id):
 
 
 
-@onready var box1=%join_code_field/line_edit1
-@onready var box2=%join_code_field/line_edit2
-@onready var box3=%join_code_field/line_edit3
-@onready var box4=%join_code_field/line_edit4
+@onready var box1 = get_node("%join_code_field/line_edit1")
+@onready var box2 = %join_code_field/line_edit2
+@onready var box3 = %join_code_field/line_edit3
+@onready var box4 = %join_code_field/line_edit4
 
 
 const CODE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -160,7 +162,24 @@ func _on_line_edit_3_text_submitted(new_text):
 func _on_line_edit_4_text_submitted(new_text):
 	$main/body/body.current_tab = tabs["wait_for_host_connection"]
 	Core.create_client(Core.code_to_ip(box1.text+" "+box2.text+" "+box3.text+" "+box4.text))
-	Core.username_recieved.connect(_username_recieved)
+
+func _backspace():
+	if $main/body/body.current_tab == tabs["join"]:
+		var box = null
+		for i in [box1,box2,box3,box4]:
+			if i.has_focus():
+				box = i
+		if not box:
+			return # no box has focus
+		if box.text == "": # if the box is empty
+			if box == box1:
+				return
+			if box == box2:
+				box1.grab_focus()
+			if box == box3:
+				box2.grab_focus()
+			if box == box4:
+				box3.grab_focus()
 
 func _on_join_button_down():
 	$main/body/body.current_tab=tabs["join"]

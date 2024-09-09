@@ -8,6 +8,8 @@ signal server_disconnected
 
 signal username_recieved(username,id)
 
+signal backspace
+
 const DEFAULT_PORT = 7001 # 7000 is the default in the godot docs so I figure 7001 is safe to use.
 const IP_DELIMITER = "."
 const CODE_DELIMITER = " "
@@ -299,6 +301,10 @@ func _ready():
 	multiplayer.connected_to_server.connect(_connected_to_server)
 	multiplayer.connection_failed.connect(_connection_failed)
 	multiplayer.server_disconnected.connect(_server_disconnected)
+
+func _process(delta):
+	if Input.is_action_just_pressed("ui_text_backspace"):
+		backspace.emit()
 
 func ip_to_code(ip:String):
 	var x = ""
