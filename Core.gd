@@ -302,7 +302,7 @@ func _ready():
 	multiplayer.connection_failed.connect(_connection_failed)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("ui_text_backspace"):
 		backspace.emit()
 
@@ -336,6 +336,7 @@ func create_client(ip:String,port:int=DEFAULT_PORT):
 		multiplayer.multiplayer_peer = peer
 
 func _peer_connected(id:int):
+	connected_peers[id]=53 # 53 is not a valid username
 	peer_connected.emit(id)
 	transmit_data.rpc_id(id,username)
 
@@ -352,5 +353,6 @@ func _server_disconnected():
 	server_disconnected.emit()
 
 @rpc("any_peer","reliable")
-func transmit_data(username):
-	username_recieved.emit(username,multiplayer.get_remote_sender_id())
+func transmit_data(_username):
+	connected_peers[multiplayer.get_remote_sender_id()]=_username
+	username_recieved.emit(_username,multiplayer.get_remote_sender_id())

@@ -11,8 +11,10 @@ func _ready():
 	
 	$main/body/body.current_tab=tabs["joinhost"]
 	
-	var godot_tween=get_tree().create_tween()
-	var chess_tween=get_tree().create_tween()
+	# create_tween() instead of get_tree().create_tween() binds the tween to this node.
+	# this prevents errors when this node is freed (on scene changes).
+	var godot_tween=create_tween()
+	var chess_tween=create_tween()
 	var loop_time=1
 
 	godot_tween.set_loops() # no arguments means run forever.
@@ -57,6 +59,12 @@ func godot(tween,time,forward=true):
 func chess(tween,time,forward=true):
 	tween.tween_property(%chess_title_label,"modulate",Color(%chess_title_label.modulate,1.0 if forward else 0.0),time)
 
+func reset_fields():
+	$main/body/body/join/v_box_container/join_code_field/line_edit1.grab_focus()
+	$main/body/body/join/v_box_container/join_code_field/line_edit1.text=""
+	$main/body/body/join/v_box_container/join_code_field/line_edit2.text=""
+	$main/body/body/join/v_box_container/join_code_field/line_edit3.text=""
+	$main/body/body/join/v_box_container/join_code_field/line_edit4.text=""
 
 func _peer_connected(id):
 	if is_host:
@@ -64,9 +72,18 @@ func _peer_connected(id):
 		var new = load("res://player_thingy.tscn").instantiate()
 		new.set_text("<USER: "+str(id)+">") # <USER: 1234> is a placeholder untill the username is sent through.
 		new.name = str(id)
+		new.click.connect(_click.bind(id))
 		player_menu.add_child(new)
 
-func _peer_disconnected(id):
+func _click(id):
+	for i in Core.connected_peers:
+		if i==id:
+			start_game.rpc_id(i)
+		else:
+			get_denied.rpc_id(i)
+	start_game()
+
+func _peer_disconnected(_id):
 	pass
 
 func _connected_to_server():
@@ -74,43 +91,34 @@ func _connected_to_server():
 		$main/body/body.current_tab = tabs["wait_for_host_start"]
 
 func _connection_failed():
-	print("hmmm")
-	print($main/body/body.get_children()[$main/body/body.current_tab].name)
 	if $main/body/body.current_tab == tabs["wait_for_host_connection"]:
 		$main/body/body.current_tab = tabs["join"]
 	$main/body/body/join/v_box_container/label.text = "Connection Failed\nCheck that you have entered the join code correctly and that your internet connection is stable and try again."
+	$main/body/body/join/v_box_container/label.hide()
+	await get_tree().create_timer(0.1).timeout
+	$main/body/body/join/v_box_container/label.show()
 
 func _server_disconnected():
 	pass
 
 func _username_recieved(username,id):
-	print("getting username in start.gd")
-	var lab = Label.new()
-	lab.text = username
-	%player_join_game_thingy.add_child(lab)
+	if multiplayer.is_server():
+		player_menu.get_node(str(id)).set_text(username)
 
+@rpc("reliable")
+func start_game():
+	get_tree().change_scene_to_file("res://board.tscn")
 
+@rpc("reliable")
+func get_denied():
+	reset_fields()
+	$main/body/body.current_tab=tabs["join"]
+	$main/body/body/join/v_box_container/label.text="Host has started a game with someone else."
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@onready var box1 = get_node("%join_code_field/line_edit1")
+@onready var box1 = %join_code_field/line_edit1
 @onready var box2 = %join_code_field/line_edit2
 @onready var box3 = %join_code_field/line_edit3
 @onready var box4 = %join_code_field/line_edit4
-
 
 const CODE_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 var current_code = ""
@@ -132,37 +140,40 @@ func fix_text(label_num,text=null):
 			$main/body/body/join/v_box_container/label.text = "Join code must contain only letters and spaces."
 			caret_pos -= 1
 	label.text=new
+	if new:
+		empty[label_num]=false
 	label.caret_column=caret_pos
 	
 	if typeof(carry) == TYPE_STRING and label_num != 3:
 		[box1,box2,box3,box4][label_num+1].grab_focus()
 		fix_text(label_num+1,carry)
 
-func _on_line_edit_1_text_changed(new_text):
+func _on_line_edit_1_text_changed(_new_text):
 	fix_text(0)
 
-func _on_line_edit_2_text_changed(new_text):
+func _on_line_edit_2_text_changed(_new_text):
 	fix_text(1)
 
-func _on_line_edit_3_text_changed(new_text):
+func _on_line_edit_3_text_changed(_new_text):
 	fix_text(2)
 
-func _on_line_edit_4_text_changed(new_text):
+func _on_line_edit_4_text_changed(_new_text):
 	fix_text(3)
 
-func _on_line_edit_1_text_submitted(new_text):
+func _on_line_edit_1_text_submitted(_new_text):
 	box2.grab_focus()
 
-func _on_line_edit_2_text_submitted(new_text):
+func _on_line_edit_2_text_submitted(_new_text):
 	box3.grab_focus()
 
-func _on_line_edit_3_text_submitted(new_text):
+func _on_line_edit_3_text_submitted(_new_text):
 	box4.grab_focus()
 
-func _on_line_edit_4_text_submitted(new_text):
+func _on_line_edit_4_text_submitted(_new_text):
 	$main/body/body.current_tab = tabs["wait_for_host_connection"]
 	Core.create_client(Core.code_to_ip(box1.text+" "+box2.text+" "+box3.text+" "+box4.text))
 
+var empty = [false,false,false,false] # tracks if the boxs were already empty before backspace was pressed.
 func _backspace():
 	if $main/body/body.current_tab == tabs["join"]:
 		var box = null
@@ -173,13 +184,25 @@ func _backspace():
 			return # no box has focus
 		if box.text == "": # if the box is empty
 			if box == box1:
-				return
+				if empty[0]:
+					return
+				else:
+					empty[0]=true
 			if box == box2:
-				box1.grab_focus()
+				if empty[1]:
+					box1.grab_focus()
+				else:
+					empty[1]=true
 			if box == box3:
-				box2.grab_focus()
+				if empty[2]:
+					box2.grab_focus()
+				else:
+					empty[2]=true
 			if box == box4:
-				box3.grab_focus()
+				if empty[3]:
+					box3.grab_focus()
+				else:
+					empty[3]=true
 
 func _on_join_button_down():
 	$main/body/body.current_tab=tabs["join"]
@@ -191,7 +214,6 @@ func _on_host_button_down():
 	is_host = true
 	$main/body/body.current_tab=tabs["host"]
 	Core.create_server()
-	Core.peer_connected.connect(_peer_connected)
 	var code=Core.ip_to_code(Core.ip_address)
 	%join_code.text=code.replace(" ","\n")
 	$main/body/body/host/settings/margin_container/v_box_container/host_username.text="Your username is:\n"+%username_lineedit.text

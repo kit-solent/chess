@@ -155,7 +155,7 @@ size_flags_vertical = 3
 
 [node name="body" type="TabContainer" parent="main/body"]
 layout_mode = 2
-current_tab = 2
+current_tab = 1
 tabs_visible = false
 
 [node name="joinhost" type="MarginContainer" parent="main/body/body"]
@@ -240,7 +240,6 @@ disabled = true
 text = "Host Game"
 
 [node name="host" type="HBoxContainer" parent="main/body/body"]
-visible = false
 layout_mode = 2
 
 [node name="settings" type="PanelContainer" parent="main/body/body/host"]
@@ -469,6 +468,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="join" type="CenterContainer" parent="main/body/body"]
+visible = false
 layout_mode = 2
 
 [node name="v_box_container" type="VBoxContainer" parent="main/body/body/join"]

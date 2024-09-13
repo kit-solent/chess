@@ -4,6 +4,7 @@ extends Control
 func _ready():
 	for i in 64:
 		var new = load("res://tile.tscn").instantiate()
+		@warning_ignore("integer_division")
 		new.set_bg((i-i/8)%2==0)
 		new.clicked.connect(tile_clicked.bind(i))
 		grid.add_child(new)

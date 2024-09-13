@@ -19,3 +19,5 @@ layout_mode = 2
 [node name="button" type="Button" parent="."]
 layout_mode = 2
 text = "Start game with this player"
+
+[connection signal="button_down" from="button" to="." method="_on_button_button_down"]
