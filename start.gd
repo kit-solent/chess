@@ -70,7 +70,7 @@ func _peer_connected(id):
 	if is_host:
 		player_menu.get_node("default_message").hide()
 		var new = load("res://player_thingy.tscn").instantiate()
-		new.set_text("<USER: "+str(id)+">") # <USER: 1234> is a placeholder untill the username is sent through.
+		new.set_text("<USER: "+str(id)+">") # <USER: 123id678> is a placeholder untill the username is sent through.
 		new.name = str(id)
 		new.click.connect(_click.bind(id))
 		player_menu.add_child(new)

@@ -6,17 +6,18 @@ class_name GameState extends Resource
 # e.g. e4 are used they will follow chess direction conventions.  
 
 var board = [
-	[PIECES.BLACK_ROOK,PIECES.BLACK_KNIGHT,PIECES.BLACK_BISHOP,PIECES.BLACK_QUEEN,PIECES.BLACK_KING,PIECES.BLACK_BISHOP,PIECES.BLACK_KNIGHT,PIECES.BLACK_ROOK],
-	[PIECES.BLACK_PAWN,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN ,PIECES.BLACK_PAWN,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN],
-	[null             ,null               ,null               ,null              ,null             ,null               ,null               ,null             ],
-	[null             ,null               ,null               ,null              ,null             ,null               ,null               ,null             ],
-	[null             ,null               ,null               ,null              ,null             ,null               ,null               ,null             ],
-	[null             ,null               ,null               ,null              ,null             ,null               ,null               ,null             ],
-	[PIECES.WHITE_PAWN,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN ,PIECES.WHITE_PAWN,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN],
-	[PIECES.WHITE_ROOK,PIECES.WHITE_KNIGHT,PIECES.WHITE_BISHOP,PIECES.WHITE_QUEEN,PIECES.WHITE_KING,PIECES.WHITE_BISHOP,PIECES.WHITE_KNIGHT,PIECES.WHITE_ROOK],
+	[PIECES.BLACK_ROOK  ,PIECES.BLACK_KNIGHT,PIECES.BLACK_BISHOP,PIECES.BLACK_QUEEN ,PIECES.BLACK_KING  ,PIECES.BLACK_BISHOP,PIECES.BLACK_KNIGHT,PIECES.BLACK_ROOK  ],
+	[PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ],
+	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
+	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
+	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
+	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
+	[PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN,PIECES.WHITE_PAWN    ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ],
+	[PIECES.WHITE_ROOK  ,PIECES.WHITE_KNIGHT,PIECES.WHITE_BISHOP,PIECES.WHITE_QUEEN ,PIECES.WHITE_KING,PIECES.WHITE_BISHOP  ,PIECES.WHITE_KNIGHT,PIECES.WHITE_ROOK  ],
 ]
 
 enum PIECES  {
+	EMPTY_SQUARE,
 	WHITE_KING,
 	WHITE_QUEEN,
 	WHITE_ROOK,
@@ -32,7 +33,7 @@ enum PIECES  {
 }
 
 func pos2vector(pos:String):
-	#                                        these are backwards because of godots backwards y coords.
+	# these are backwards because of godots backwards y coords.
 	return Vector2i("abcdefgh".find(pos[0]),"87654321".find(pos[0]))
 
 func vector2pos(vector:Vector2i):
@@ -90,6 +91,7 @@ func init():
 		Vector2i( 1,-2),
 		Vector2i( 1, 2)
 	]
+	
 	pawn_moves = [
 		Vector2.UP,
 		2*Vector2.UP # Pawns can move 2 squares on their first move.
@@ -115,6 +117,16 @@ func init():
 		for y in range(1,9):
 			entire_board.append(Vector2i(x,y))
 
+func set_intersection(set1:Array, set2:Array) -> Array:
+	"""
+	Simulates the set intersection operator with arrays.
+	"""
+	var new=[]
+	for i in set1:
+		if i in set2:
+			new.append(i)
+	return new
+
 func is_legal_move(_from:String,_to:String):
 	var from = pos2vector(_from)
 	var to = pos2vector(_to)
@@ -122,11 +134,13 @@ func is_legal_move(_from:String,_to:String):
 	var piece = board[7-from.y][from.x]
 	var potential_moves = moves[piece] # an array of potential moves relative to
 	
-	var new = []
-	for i in potential_moves:
-		if i in entire_board:
-			new.append(i)
-	potential_moves = new
+	# eliminate moves that are off the board.
+	potential_moves = set_intersection(potential_moves,entire_board)
 	
+	# eliminate moves blocked by allied pieces.
+	for y in board:
+		for x in y:
+			if board[y][x]:pass
 	
-	
+	if 2 in PIECES:
+		print("hi")
