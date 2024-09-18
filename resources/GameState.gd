@@ -5,17 +5,19 @@ class_name GameState extends Resource
 # for board positions they will use this convention. Whenever chess coords
 # e.g. e4 are used they will follow chess direction conventions.  
 
-var board = [
+signal checkmate(winner)
+signal draw(reason)
+
+var DEFAULT_BOARD = [
 	[PIECES.BLACK_ROOK  ,PIECES.BLACK_KNIGHT,PIECES.BLACK_BISHOP,PIECES.BLACK_QUEEN ,PIECES.BLACK_KING  ,PIECES.BLACK_BISHOP,PIECES.BLACK_KNIGHT,PIECES.BLACK_ROOK  ],
 	[PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ,PIECES.BLACK_PAWN  ],
 	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
 	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
 	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
 	[PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE,PIECES.EMPTY_SQUARE],
-	[PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN,PIECES.WHITE_PAWN    ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ],
-	[PIECES.WHITE_ROOK  ,PIECES.WHITE_KNIGHT,PIECES.WHITE_BISHOP,PIECES.WHITE_QUEEN ,PIECES.WHITE_KING,PIECES.WHITE_BISHOP  ,PIECES.WHITE_KNIGHT,PIECES.WHITE_ROOK  ],
-]
-
+	[PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ,PIECES.WHITE_PAWN  ],
+	[PIECES.WHITE_ROOK  ,PIECES.WHITE_KNIGHT,PIECES.WHITE_BISHOP,PIECES.WHITE_QUEEN ,PIECES.WHITE_KING  ,PIECES.WHITE_BISHOP,PIECES.WHITE_KNIGHT,PIECES.WHITE_ROOK  ],]
+var board = DEFAULT_BOARD
 enum PIECES  {
 	EMPTY_SQUARE,
 	WHITE_KING,
@@ -29,8 +31,22 @@ enum PIECES  {
 	BLACK_ROOK,
 	BLACK_KNIGHT,
 	BLACK_BISHOP,
-	BLACK_PAWN,
-}
+	BLACK_PAWN}
+var WHITE_PIECES = [
+	PIECES.WHITE_KING,
+	PIECES.WHITE_QUEEN,
+	PIECES.WHITE_ROOK,
+	PIECES.WHITE_KNIGHT,
+	PIECES.WHITE_BISHOP,
+	PIECES.WHITE_PAWN]
+var BLACK_PIECES = [
+	PIECES.BLACK_KING,
+	PIECES.BLACK_QUEEN,
+	PIECES.BLACK_ROOK,
+	PIECES.BLACK_KNIGHT,
+	PIECES.BLACK_BISHOP,
+	PIECES.BLACK_PAWN]
+
 
 func pos2vector(pos:String):
 	# these are backwards because of godots backwards y coords.
@@ -117,6 +133,16 @@ func init():
 		for y in range(1,9):
 			entire_board.append(Vector2i(x,y))
 
+func perform_move(from:Vector2i, to:Vector2i):
+	"""
+	Moves the piece at square "from" to square "to" regardless of legal moves.
+	"""
+	board[to.y][to.x] = board[from.y][from.x]
+	board[from.y][from.x] = PIECES.EMPTY_SQUARE
+
+func make_move_if_legal(start:Vector2i, stop:Vector2i):
+	pass
+
 func set_intersection(set1:Array, set2:Array) -> Array:
 	"""
 	Simulates the set intersection operator with arrays.
@@ -126,6 +152,9 @@ func set_intersection(set1:Array, set2:Array) -> Array:
 		if i in set2:
 			new.append(i)
 	return new
+
+
+
 
 func is_legal_move(_from:String,_to:String):
 	var from = pos2vector(_from)
@@ -141,6 +170,80 @@ func is_legal_move(_from:String,_to:String):
 	for y in board:
 		for x in y:
 			if board[y][x]:pass
+
+
+func all_legal_moves(_position:String, consider_checks = true):
+	var pos = pos2vector(_position)
+	var piece = board[pos.y][pos.x]
+	var pot_moves = []
+	for i in moves[piece]:
+		pot_moves.append(i + pos) # get an array of all potential moves relative to the pieces current position.
+	pot_moves = set_intersection(pot_moves, entire_board)
 	
-	if 2 in PIECES:
-		print("hi")
+	if piece == PIECES.EMPTY_SQUARE:
+		return [] # no legal moves for an empty square
+	
+	if piece in [PIECES.WHITE_KING, PIECES.BLACK_KING]:
+		var _rtrn = []
+		for i in pot_moves:
+			# Kings can never move to a square with a friendly piece on it.
+			if piece == PIECES.WHITE_KING:
+				if board[i.y][i.x] in WHITE_PIECES:
+					continue
+			elif piece == PIECES.BLACK_KING:
+				if board[i.y][i.x] in BLACK_PIECES:
+					continue
+			
+			if consider_checks:
+				var test_check = duplicate() # make a copy of this board
+				test_check.perform_move(pos, i) # force the move
+				if test_check.is_check(): # and see if the result is in check
+					continue
+			
+			_rtrn.append(i)
+
+
+
+
+
+func is_check():
+	# first check the white king.
+	var white_king_pos = find(PIECES.WHITE_KING)[0] # there should only ever be one.
+	for i in get_pieces_by_colour(false):
+		# if the position of the king is in the legal moves of any enemy piece.
+		if white_king_pos in all_legal_moves(i,false):
+			return true
+	
+	# then check the black king.
+	var black_king_pos = find(PIECES.BLACK_KING)[0] # there should only ever be one.
+	for i in get_pieces_by_colour(true):
+		# if the position of the king is in the legal moves of any enemy piece.
+		if black_king_pos in all_legal_moves(i,false):
+			return true
+
+func get_pieces_by_colour(white:bool):
+	"""
+	Returns an array of all black pieces on the board.
+	"""
+	var pieces = []
+	var list_pieces
+	if white:
+		list_pieces = WHITE_PIECES
+	else:
+		list_pieces = BLACK_PIECES
+	for y in board:
+		for x in y:
+			if board[y][x] in list_pieces:
+				pieces.append(Vector2i(x,y))
+	return pieces
+
+func find(piece):
+	"""
+	Returns the positions of all pieces of the given type on the board.
+	"""
+	var pieces = []
+	for y in board:
+		for x in y:
+			if board[y][x] == piece:
+				pieces.append(Vector2i(x,y))
+	return pieces
