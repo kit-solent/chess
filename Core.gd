@@ -273,6 +273,7 @@ var words = [
 	"receptive"]
 var ip_address:String
 
+var playing_as_white:bool
 
 var username:String
 var connected_peers = {

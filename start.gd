@@ -75,13 +75,21 @@ func _peer_connected(id):
 		new.click.connect(_click.bind(id))
 		player_menu.add_child(new)
 
+@onready var thingy = $main/body/body/host/settings/margin_container/v_box_container/panel_container/margin_container/playas/option_button
 func _click(id):
+	var playing_as_white:bool
+	if thingy.selected == 0:
+		playing_as_white = true if RandomNumberGenerator.new().randi_range(0,1)==0 else false
+	elif thingy.selected == 1:
+		playing_as_white = true
+	else:
+		playing_as_white = false
 	for i in Core.connected_peers:
 		if i==id:
-			start_game.rpc_id(i)
+			start_game.rpc_id(i, not playing_as_white)
 		else:
 			get_denied.rpc_id(i)
-	start_game()
+	start_game(playing_as_white)
 
 func _peer_disconnected(_id):
 	pass
@@ -106,7 +114,8 @@ func _username_recieved(username,id):
 		player_menu.get_node(str(id)).set_text(username)
 
 @rpc("reliable")
-func start_game():
+func start_game(playing_as_white):
+	Core.playing_as_white=playing_as_white
 	get_tree().change_scene_to_file("res://board.tscn")
 
 @rpc("reliable")
