@@ -39,19 +39,34 @@ func _ready():
 			$panel_container/aspect_ratio_container/grid_container.remove_child(i)
 		for i in x:
 			$panel_container/aspect_ratio_container/grid_container.add_child(i)
-			
+
+func _process(delta):
+	if Input.is_action_just_pressed("escape"):
+		$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(selected_tile)].deselect()
+		selected_tile=null
 
 var selected_tile = null
 func tile_clicked(tile_id):
 	print("tile clicked: "+str(tile_id))
 	if selected_tile:
-		selected_tile.deselect()
-	if $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(tile_id)].has_piece():
+		move_piece.rpc(selected_tile,tile_id)
+		$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(tile_id)].deselect()
+		selected_tile=null
+	elif $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(tile_id)].has_piece():
 		$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(tile_id)].select()
-		selected_tile = $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(tile_id)]
+		selected_tile = tile_id
 
 func tile_id_to_index(id:int):
 	if not Core.playing_as_white:
 		return 63-id
 	else:
 		return id
+
+@rpc("call_local","any_peer")
+func move_piece(from,to):
+	var p = $panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(from)].piece
+	$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(from)].set_piece("")
+	$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(to)].set_piece(p)
+	
+	$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(from)].deselect()
+	$panel_container/aspect_ratio_container/grid_container.get_children()[tile_id_to_index(to)].deselect()

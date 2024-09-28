@@ -13,7 +13,10 @@ func set_bg(is_white:bool=true):
 		self["theme_override_styles/panel"] = black
 
 func set_piece(_piece:String):
-	$margin_container/texture_rect.texture=Core.pieces[_piece]
+	if _piece:
+		$margin_container/texture_rect.texture=Core.pieces[_piece]
+	else:
+		$margin_container/texture_rect.texture=null
 	piece = _piece
 
 func has_piece():
