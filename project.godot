@@ -28,7 +28,7 @@ naming/node_name_casing=2
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/gdscript_formatter/plugin.cfg")
 
 [input]
 

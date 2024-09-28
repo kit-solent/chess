@@ -6,11 +6,11 @@ signal connected_to_server
 signal connection_failed
 signal server_disconnected
 
-signal username_recieved(username,id)
+signal username_recieved(username, id)
 
 signal backspace
 
-const DEFAULT_PORT = 7001 # 7000 is the default in the godot docs so I figure 7001 is safe to use.
+const DEFAULT_PORT = 7001  # 7000 is the default in the godot docs so I figure 7001 is safe to use.
 const IP_DELIMITER = "."
 const CODE_DELIMITER = " "
 
@@ -270,31 +270,33 @@ var words = [
 	"tense",
 	"change",
 	"substantial",
-	"receptive"]
-var ip_address:String
+	"receptive"
+]
+var ip_address: String
 
-var playing_as_white:bool
+var playing_as_white: bool
 
-var username:String
+var username: String
 var connected_peers = {
-	# in the format: id: "username",
+# in the format: id: "username",
 }
 
 var pieces = {}
 
+
 func _ready():
-	DisplayServer.window_set_min_size(Vector2i(1152,648))
-	if OS.has_feature("windows") and OS.has_environment("COMPUTERNAME"): # Windows
-		ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),IP.TYPE_IPV4)
-	elif OS.has_feature("x11") and OS.has_environment("HOSTNAME"): # Linux
-		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),IP.TYPE_IPV4)
-	elif OS.has_feature("OSX") and OS.has_environment("HOSTNAME"): # MacOS
-		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),IP.TYPE_IPV4)
-	
-	for a in ["white","black"]:
-		for b in ["king","queen","rook","knight","bishop","pawn"]:
-			pieces[a+" "+b] = load("res://art/"+a+"_"+b+".png")
-	
+	DisplayServer.window_set_min_size(Vector2i(1152, 648))
+	if OS.has_feature("windows") and OS.has_environment("COMPUTERNAME"):  # Windows
+		ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
+	elif OS.has_feature("x11") and OS.has_environment("HOSTNAME"):  # Linux
+		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
+	elif OS.has_feature("OSX") and OS.has_environment("HOSTNAME"):  # MacOS
+		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
+
+	for a in ["white", "black"]:
+		for b in ["king", "queen", "rook", "knight", "bishop", "pawn"]:
+			pieces[a + " " + b] = load("res://art/" + a + "_" + b + ".png")
+
 	# multiplayer signals (all peers)
 	multiplayer.peer_connected.connect(_peer_connected)
 	multiplayer.peer_disconnected.connect(_peer_disconnected)
@@ -303,32 +305,37 @@ func _ready():
 	multiplayer.connection_failed.connect(_connection_failed)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 
+
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_text_backspace"):
 		backspace.emit()
 
-func ip_to_code(ip:String):
+
+func ip_to_code(ip: String):
 	var x = ""
 	for i in ip.split(IP_DELIMITER):
 		x += words[int(i)] + CODE_DELIMITER
 	return x.left(-1)
 
-func code_to_ip(code:String):
+
+func code_to_ip(code: String):
 	var x = ""
 	for i in code.split(CODE_DELIMITER):
 		x += str(words.find(i)) + IP_DELIMITER
 	return x.left(-1)
 
+
 # Multiplayer functionality
-func create_server(port:int=DEFAULT_PORT,max_clients:int=100):
+func create_server(port: int = DEFAULT_PORT, max_clients: int = 100):
 	var peer = ENetMultiplayerPeer.new()
-	var err = peer.create_server(port,max_clients)
+	var err = peer.create_server(port, max_clients)
 	if err:
 		print("Failed to create server. Whacky, huh?")
 	else:
-		multiplayer.multiplayer_peer=peer
+		multiplayer.multiplayer_peer = peer
 
-func create_client(ip:String,port:int=DEFAULT_PORT):
+
+func create_client(ip: String, port: int = DEFAULT_PORT):
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_client(ip, port)
 	if err:
@@ -336,24 +343,30 @@ func create_client(ip:String,port:int=DEFAULT_PORT):
 	else:
 		multiplayer.multiplayer_peer = peer
 
-func _peer_connected(id:int):
-	connected_peers[id]=53 # 53 is not a valid username
-	peer_connected.emit(id)
-	transmit_data.rpc_id(id,username)
 
-func _peer_disconnected(id:int):
+func _peer_connected(id: int):
+	connected_peers[id] = 53  # 53 is not a valid username
+	peer_connected.emit(id)
+	transmit_data.rpc_id(id, username)
+
+
+func _peer_disconnected(id: int):
 	peer_disconnected.emit(id)
+
 
 func _connected_to_server():
 	connected_to_server.emit()
 
+
 func _connection_failed():
 	connection_failed.emit()
+
 
 func _server_disconnected():
 	server_disconnected.emit()
 
-@rpc("any_peer","reliable")
+
+@rpc("any_peer", "reliable")
 func transmit_data(_username):
-	connected_peers[multiplayer.get_remote_sender_id()]=_username
-	username_recieved.emit(_username,multiplayer.get_remote_sender_id())
+	connected_peers[multiplayer.get_remote_sender_id()] = _username
+	username_recieved.emit(_username, multiplayer.get_remote_sender_id())
