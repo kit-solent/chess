@@ -4,7 +4,7 @@ signal clicked
 
 var white = preload("res://resources/white_background.tres")
 var black = preload("res://resources/black_background.tres")
-var piece: String = ""
+var piece:int = 0
 
 
 func set_bg(is_white: bool = true):
@@ -14,16 +14,13 @@ func set_bg(is_white: bool = true):
 		self["theme_override_styles/panel"] = black
 
 
-func set_piece(_piece: String):
-	if _piece:
-		$margin_container/texture_rect.texture = Core.pieces[_piece]
-	else:
-		$margin_container/texture_rect.texture = null
+func set_piece(_piece: int=0):
+	$margin_container/texture_rect.texture = Core.piece_textures[_piece]
 	piece = _piece
 
 
 func has_piece():
-	return piece != ""
+	return piece>0
 
 
 func _on_gui_input(event):

@@ -3,23 +3,9 @@ class_name GameState extends Resource
 # A note on vectors.
 # Godot vectors use a positive y value for down. Whenever Vector2i's are used
 # for board positions they will use this convention. Whenever chess coords
-# e.g. e4 are used they will follow chess direction conventions.  
+# e.g. e4 are used they will follow chess direction conventions.
 
-
-enum PIECES {
-	EMPTY_SQUARE,
-	WHITE_KING,
-	WHITE_QUEEN,
-	WHITE_ROOK,
-	WHITE_KNIGHT,
-	WHITE_BISHOP,
-	WHITE_PAWN,
-	BLACK_KING,
-	BLACK_QUEEN,
-	BLACK_ROOK,
-	BLACK_KNIGHT,
-	BLACK_BISHOP,
-	BLACK_PAWN}
+var PIECES = Core.PIECES
 
 var DEFAULT_BOARD = [
 	[PIECES.BLACK_ROOK  , PIECES.BLACK_KNIGHT, PIECES.BLACK_BISHOP, PIECES.BLACK_QUEEN , PIECES.BLACK_KING  , PIECES.BLACK_BISHOP, PIECES.BLACK_KNIGHT, PIECES.BLACK_ROOK  ],
@@ -42,8 +28,12 @@ func vector2pos(vector:Vector2i):
 	return "abcdefgh"[vector.x]+"87654321"[vector.y]
 
 func fliped():
-	var x=board
+	var x=board.duplicate()
 	x.reverse()
+	return x
+
+func notflipped():
+	var x=board.duplicate()
 	return x
 
 func perform_move(from:Vector2i, to:Vector2i):
@@ -60,7 +50,7 @@ func perform_move(from:Vector2i, to:Vector2i):
 	else:
 		# otherwise keep the piece as is.
 		board[to.y][to.x] = board[from.y][from.x]
-	
+
 	# clear the "from" square to avoid duplicating the piece.
 	board[from.y][from.x] = PIECES.EMPTY_SQUARE
 

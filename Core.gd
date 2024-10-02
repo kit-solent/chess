@@ -281,8 +281,22 @@ var connected_peers = {
 # in the format: id: "username",
 }
 
-var pieces = {}
+var piece_textures = []
 
+enum PIECES {
+	EMPTY_SQUARE,
+	WHITE_KING,
+	WHITE_QUEEN,
+	WHITE_ROOK,
+	WHITE_KNIGHT,
+	WHITE_BISHOP,
+	WHITE_PAWN,
+	BLACK_KING,
+	BLACK_QUEEN,
+	BLACK_ROOK,
+	BLACK_KNIGHT,
+	BLACK_BISHOP,
+	BLACK_PAWN}
 
 func _ready():
 	DisplayServer.window_set_min_size(Vector2i(1152, 648))
@@ -292,10 +306,14 @@ func _ready():
 		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
 	elif OS.has_feature("OSX") and OS.has_environment("HOSTNAME"):  # MacOS
 		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
-
+	else:
+		printerr("OS not supported.")
+		get_tree().quit()
+	
+	piece_textures.append(load("res://art/empty_square.png"))
 	for a in ["white", "black"]:
 		for b in ["king", "queen", "rook", "knight", "bishop", "pawn"]:
-			pieces[a + " " + b] = load("res://art/" + a + "_" + b + ".png")
+			piece_textures.append(load("res://art/" + a + "_" + b + ".png"))
 
 	# multiplayer signals (all peers)
 	multiplayer.peer_connected.connect(_peer_connected)
