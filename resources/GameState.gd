@@ -2,8 +2,13 @@ class_name GameState extends Resource
 
 # A note on vectors.
 # Godot vectors use a positive y value for down. Whenever Vector2i's are used
-# for board positions they will use this convention. Whenever chess coords
-# e.g. e4 are used they will follow chess direction conventions.
+# for board positions they will use this convention as opposed to the standard
+# chess positioning conventions (a1 in the bottom left to h8 in the top right).
+
+# NOTE: The gamestate stored in this resource reperesents a global board state
+# and, while it provides functions to access a flipped version of its board,
+# will store the board in its unflipped state. The board state of any two
+# GameState resources in different instances of the same game should be identical.
 
 var PIECES = Core.PIECES
 
@@ -53,4 +58,3 @@ func perform_move(from:Vector2i, to:Vector2i):
 
 	# clear the "from" square to avoid duplicating the piece.
 	board[from.y][from.x] = PIECES.EMPTY_SQUARE
-
