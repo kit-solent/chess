@@ -4,3 +4,5 @@
 
 [node name="Core" type="Node"]
 script = ExtResource("1_hbsjl")
+
+[node name="http_request" type="HTTPRequest" parent="."]

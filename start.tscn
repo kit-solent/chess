@@ -155,11 +155,10 @@ size_flags_vertical = 3
 
 [node name="body" type="TabContainer" parent="main/body"]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 
 [node name="joinhost" type="MarginContainer" parent="main/body/body"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
@@ -241,6 +240,7 @@ disabled = true
 text = "Host Game"
 
 [node name="host" type="HBoxContainer" parent="main/body/body"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -300,6 +300,7 @@ popup/item_0/icon = ExtResource("5_bxeiq")
 popup/item_0/id = 2
 popup/item_1/text = "White"
 popup/item_1/icon = ExtResource("3_rxgfh")
+popup/item_1/id = 1
 popup/item_2/text = "Black"
 popup/item_2/icon = ExtResource("4_swq01")
 popup/item_2/id = 1

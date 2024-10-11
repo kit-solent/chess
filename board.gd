@@ -5,7 +5,7 @@ var tile = preload("res://tile.tscn")
 var board = GameState.new()
 
 func _ready():
-	blit(board, not Core.playing_as_white)
+	blit(board.to_rpc())
 
 var selected_tile = null
 func _process(_delta):
@@ -37,6 +37,10 @@ func tile_clicked(tile_position:Vector2i):
 		if (Core.are_same_colour(get_tile_by_position(tile_position).piece,Core.PIECES.BLACK_KING) and Core.playing_as_white) or\
 		   (Core.are_same_colour(get_tile_by_position(tile_position).piece,Core.PIECES.WHITE_KING) and not Core.playing_as_white):
 			return # if you are playing as white and try and select a black piece or vice versa then return
+		
+		# if they are not the same i.e. it's whites turn and we are playing black or it's blacks turn and we are playing white.
+		if not(board.wtm==Core.playing_as_white):
+			return # can't move if it's not your turn.
 		get_tile_by_position(tile_position).select()
 		selected_tile = tile_position
 		print("selecting new piece")
@@ -57,6 +61,7 @@ func tile_pos_to_index(pos:Vector2i, flipped:bool = not Core.playing_as_white):
 		return pos.y*8 + pos.x
 
 func tile_index_to_pos(index:int, flipped:bool = not Core.playing_as_white):
+	@warning_ignore("integer_division")
 	var x = Vector2i(index%8, index/8)
 	if flipped:
 		x.y = 7-x.y
@@ -69,20 +74,22 @@ func get_tile_by_position(pos:Vector2i, flipped:bool = not Core.playing_as_white
 func move_piece(from:Vector2i, to:Vector2i):
 	# perform the move then render the board.
 	board.perform_move(from, to)
-	blit(board, not Core.playing_as_white)
+	blit(board.to_rpc())
 
 # this should only be rpc'd when the entire board state is changed at once rather than
 # moving a single piece. For moving single pieces move_piece has less network usage.
 @rpc("call_local","any_peer") 
-func blit(_board:GameState, flipped:bool = false):
+func blit(_board:Dictionary, playing_white:bool = Core.playing_as_white):
 	"""
 	Write the state of `_board` to the screen. If `flipped` is true render upside down.
 	"""
-	var bd
+	var flipped = not playing_white
+	var bd = GameState.new()
+	bd.from_rpc(_board)
 	if flipped:
-		bd = _board.fliped()
+		bd = bd.fliped()
 	else:
-		bd = _board.notflipped()
+		bd = bd.notflipped()
 	
 	# remove all current children before blitting.
 	for i in grid.get_children():
@@ -95,6 +102,7 @@ func blit(_board:GameState, flipped:bool = false):
 			# create a new tile and set its piece and background values.
 			var new = tile.instantiate()
 			new.set_piece(b)
+			@warning_ignore("integer_division")
 			new.set_bg((i - i / 8) % 2 == 0)
 			
 			# rebind the click event.
@@ -123,14 +131,13 @@ func _on_button_button_down() -> void:
 		printerr("Failed to save resource")
 		$panel_container/h_box_container/panel_container/v_box_container/button.text="Failed to save resource. Click to try again."
 
-
 func _on_button_2_button_down() -> void:
 	print("loading game...")
 	var loaded_game = ResourceLoader.load($panel_container/h_box_container/panel_container/v_box_container/line_edit.text)
 	if loaded_game:
 		board = loaded_game
-		# TODO: cannot rpc custom resources. Needs steralisation first. :(
-		blit.rpc(board, not Core.playing_as_white)
+		blit.rpc(board.to_rpc())
+		print("rpc sent.")
 	else:
 		printerr("Failed to load data.")
 		$panel_container/h_box_container/panel_container/v_box_container/button2.text = "Failed to load resource. Click to try again."

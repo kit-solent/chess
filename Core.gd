@@ -302,23 +302,35 @@ func are_same_colour(piece1:int, piece2:int):
 	return piece1 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN+1) and piece2 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN+1) or\
 		   piece1 in range(PIECES.BLACK_KING, PIECES.BLACK_PAWN+1) and piece2 in range(PIECES.BLACK_KING, PIECES.BLACK_PAWN+1)
 
-func _ready():
-	DisplayServer.window_set_min_size(Vector2i(1152, 648))
-	if OS.has_feature("windows") and OS.has_environment("COMPUTERNAME"):  # Windows
-		ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
-	elif OS.has_feature("x11") and OS.has_environment("HOSTNAME"):  # Linux
-		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
-	elif OS.has_feature("OSX") and OS.has_environment("HOSTNAME"):  # MacOS
-		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
+func get_ip():
+	var peer = ENetMultiplayerPeer.new()
+	var err = peer.create_server(DEFAULT_PORT, 1)
+	if err:
+		print("Failed to create server. Whacky, huh?")
 	else:
-		printerr("OS not supported.")
-		get_tree().quit()
+		var local_ip = peer.get_peer(0).get_remote_address()
+		peer.close()
+		return local_ip
+
+func _ready():
+	# DisplayServer.window_set_min_size(Vector2i(1152, 648))
+	#if OS.get_name() == "Windows" and OS.has_environment("COMPUTERNAME"):  # Windows
+		#ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
+	#elif OS.get_name() == "Linux" and OS.has_environment("HOSTNAME"):  # Linux
+		#ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
+	#elif OS.get_name() == "macOS" and OS.has_environment("HOSTNAME"):  # MacOS
+		#printerr("Mac is not supported because it is a stupid OS that doesn't allow access to ")
+		#ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")), IP.TYPE_IPV4)
+	#else:
+		#printerr("OS not supported.")
+		#get_tree().call_deferred("quit")
+	ip_address = get_ip()
 	
 	piece_textures.append(load("res://art/empty_square.png"))
 	for a in ["white", "black"]:
 		for b in ["king", "queen", "rook", "knight", "bishop", "pawn"]:
 			piece_textures.append(load("res://art/" + a + "_" + b + ".png"))
-
+	
 	# multiplayer signals (all peers)
 	multiplayer.peer_connected.connect(_peer_connected)
 	multiplayer.peer_disconnected.connect(_peer_disconnected)

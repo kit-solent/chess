@@ -23,7 +23,7 @@ var DEFAULT_BOARD = [
 	[PIECES.WHITE_ROOK  , PIECES.WHITE_KNIGHT, PIECES.WHITE_BISHOP, PIECES.WHITE_QUEEN , PIECES.WHITE_KING  , PIECES.WHITE_BISHOP, PIECES.WHITE_KNIGHT, PIECES.WHITE_ROOK  ],]
 
 @export var board = DEFAULT_BOARD
-
+@export var wtm = true
 
 func pos2vector(pos:String):
 	# these are backwards because of godots backwards y coords.
@@ -58,3 +58,14 @@ func perform_move(from:Vector2i, to:Vector2i):
 
 	# clear the "from" square to avoid duplicating the piece.
 	board[from.y][from.x] = PIECES.EMPTY_SQUARE
+	wtm = not wtm
+
+func to_rpc():
+	return {
+		"board":board,
+		"wtm":wtm
+	}
+
+func from_rpc(data:Dictionary):
+	board = data["board"]
+	wtm = data["wtm"]
