@@ -312,11 +312,22 @@ enum PIECES {
 	BLACK_ROOK,
 	BLACK_KNIGHT,
 	BLACK_BISHOP,
-	BLACK_PAWN}
+	BLACK_PAWN
+}
 
-func are_same_colour(piece1:int, piece2:int):
-	return piece1 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN+1) and piece2 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN+1) or\
-		   piece1 in range(PIECES.BLACK_KING, PIECES.BLACK_PAWN+1) and piece2 in range(PIECES.BLACK_KING, PIECES.BLACK_PAWN+1)
+
+func are_same_colour(piece1: int, piece2: int):
+	return (
+		(
+			piece1 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN + 1)
+			and piece2 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN + 1)
+		)
+		or (
+			piece1 in range(PIECES.BLACK_KING, PIECES.BLACK_PAWN + 1)
+			and piece2 in range(PIECES.BLACK_KING, PIECES.BLACK_PAWN + 1)
+		)
+	)
+
 
 func _ready():
 	# DisplayServer.window_set_min_size(Vector2i(1152, 648))

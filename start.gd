@@ -277,7 +277,7 @@ func _on_host_button_down():
 
 
 func _on_about_meta_clicked(meta):
-	print("opening: "+str(meta))
+	print("opening: " + str(meta))
 	if (
 		meta
 		in [
