@@ -155,10 +155,11 @@ size_flags_vertical = 3
 
 [node name="body" type="TabContainer" parent="main/body"]
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 
 [node name="joinhost" type="MarginContainer" parent="main/body/body"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
@@ -240,7 +241,6 @@ disabled = true
 text = "Host Game"
 
 [node name="host" type="HBoxContainer" parent="main/body/body"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -306,6 +306,8 @@ popup/item_2/icon = ExtResource("4_swq01")
 popup/item_2/id = 1
 
 [node name="panel_container2" type="PanelContainer" parent="main/body/body/host/settings/margin_container/v_box_container"]
+editor_description = "This will not be implimented so keep it hidden."
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ebc6e")
 
@@ -574,18 +576,33 @@ theme_override_font_sizes/font_size = 32
 tab_alignment = 1
 current_tab = 0
 
-[node name="About" type="RichTextLabel" parent="main/body/about/p/t"]
+[node name="About" type="MarginContainer" parent="main/body/about/p/t"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_tab_index = 0
+
+[node name="About" type="RichTextLabel" parent="main/body/about/p/t/About"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 25
 theme_override_font_sizes/bold_font_size = 42
 bbcode_enabled = true
-text = "Time Controls: TODO
+text = "This is a desktop chess application made using the Godot game engine for Windows. It supports LAN only multiplayer and provides some move restrictions/tools such as: enforcing turn based movment, pawn promotion, and the inability to move the other players pieces. It allows you to save games to a file and then restore the board state to that in the file later.
 
-© Max Lang 2024"
-metadata/_tab_index = 0
+© Max Lang ([url=\"https://github.com/kit-solent\"]github.com/kit-solent[/url]) 2024"
 
-[node name="Credits" type="RichTextLabel" parent="main/body/about/p/t"]
+[node name="Credits" type="MarginContainer" parent="main/body/about/p/t"]
 visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_tab_index = 1
+
+[node name="Credits" type="RichTextLabel" parent="main/body/about/p/t/Credits"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 25
 theme_override_font_sizes/bold_font_size = 42
@@ -595,17 +612,18 @@ text = "This game was made by Max Lang using the Godot game engine.
 
 [b]Asset credits:[/b]
 
-Font (Ubuntu Regular) was downloaded from [url=\"https://fonts.google.com/specimen/Ubuntu\"]https://fonts.google.com/specimen/Ubuntu[/url].
+The Game Engine used to create this app is the Godot Game engine ([url=\"https://godotengine.org\"]https://godotengine.org[/url])
 
-Board tiles I made myself.
+The font (Ubuntu Regular) was downloaded from [url=\"https://fonts.google.com/specimen/Ubuntu\"]https://fonts.google.com/specimen/Ubuntu[/url].
 
-Piece art is from [url=\"https://opengameart.org/content/pixel-chess-pieces\"]https://opengameart.org/content/pixel-chess-pieces[/url].
+The board tiles, I made myself.
 
-Coin icon is from [url=\"https://www.svgrepo.com/svg/477430/coin-toss-3\"]https://www.svgrepo.com/svg/477430/coin-toss-3[/url].
+The piece art is from [url=\"https://opengameart.org/content/pixel-chess-pieces\"]https://opengameart.org/content/pixel-chess-pieces[/url].
+
+And the coin icon is from [url=\"https://www.svgrepo.com/svg/477430/coin-toss-3\"]https://www.svgrepo.com/svg/477430/coin-toss-3[/url].
 
 
 © Max Lang 2024"
-metadata/_tab_index = 1
 
 [connection signal="button_down" from="main/head/row/about_button" to="." method="_on_about_button_down"]
 [connection signal="text_changed" from="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/username_lineedit" to="." method="_on_line_edit_text_changed"]
@@ -620,5 +638,5 @@ metadata/_tab_index = 1
 [connection signal="text_submitted" from="main/body/body/join/v_box_container/join_code_field/line_edit3" to="." method="_on_line_edit_3_text_submitted"]
 [connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit4" to="." method="_on_line_edit_4_text_changed"]
 [connection signal="text_submitted" from="main/body/body/join/v_box_container/join_code_field/line_edit4" to="." method="_on_line_edit_4_text_submitted"]
-[connection signal="meta_clicked" from="main/body/about/p/t/About" to="." method="_on_about_meta_clicked"]
-[connection signal="meta_clicked" from="main/body/about/p/t/Credits" to="." method="_on_about_meta_clicked"]
+[connection signal="meta_clicked" from="main/body/about/p/t/About/About" to="." method="_on_about_meta_clicked"]
+[connection signal="meta_clicked" from="main/body/about/p/t/Credits/Credits" to="." method="_on_about_meta_clicked"]

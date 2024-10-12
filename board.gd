@@ -79,17 +79,23 @@ func move_piece(from:Vector2i, to:Vector2i):
 # this should only be rpc'd when the entire board state is changed at once rather than
 # moving a single piece. For moving single pieces move_piece has less network usage.
 @rpc("call_local","any_peer") 
-func blit(_board:Dictionary, playing_white:bool = Core.playing_as_white):
+func blit(_board:Dictionary, update_state:bool = false, playing_white:bool = Core.playing_as_white):
 	"""
-	Write the state of `_board` to the screen. If `flipped` is true render upside down.
+	Write the state of `_board` to the screen. If `playing_white` is false render upside down.
+	If `update_state` is true then update the board variable to match the `_board` argument.
 	"""
 	var flipped = not playing_white
-	var bd = GameState.new()
-	bd.from_rpc(_board)
+	if not update_state:
+		# create a local variable to overshadow the global `board` variable.
+		var board = GameState.new()
+		
+	board.from_rpc(_board)
+	
+	var bd
 	if flipped:
-		bd = bd.fliped()
+		bd = board.fliped()
 	else:
-		bd = bd.notflipped()
+		bd = board.notflipped()
 	
 	# remove all current children before blitting.
 	for i in grid.get_children():
@@ -136,7 +142,7 @@ func _on_button_2_button_down() -> void:
 	var loaded_game = ResourceLoader.load($panel_container/h_box_container/panel_container/v_box_container/line_edit.text)
 	if loaded_game:
 		board = loaded_game
-		blit.rpc(board.to_rpc())
+		blit.rpc(board.to_rpc(), true)
 		print("rpc sent.")
 	else:
 		printerr("Failed to load data.")

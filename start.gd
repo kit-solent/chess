@@ -277,19 +277,22 @@ func _on_host_button_down():
 
 
 func _on_about_meta_clicked(meta):
+	print("opening: "+str(meta))
 	if (
 		meta
 		in [
 			"https://fonts.google.com/specimen/Ubuntu",
 			"https://opengameart.org/content/pixel-chess-pieces",
-			"https://www.svgrepo.com/svg/477430/coin-toss-3"
+			"https://www.svgrepo.com/svg/477430/coin-toss-3",
+			"https://godotengine.org",
+			"https://github.com/kit-solent"
 		]
 	):
 		OS.shell_open(meta)
 
 
 func _on_about_button_down():
-	pass  # TODO
+	$main/body/about.visible = not $main/body/about.visible
 
 
 const ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123567890 _-."
