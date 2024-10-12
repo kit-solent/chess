@@ -139,6 +139,7 @@ func _on_button_button_down() -> void:
 
 func _on_button_2_button_down() -> void:
 	print("loading game...")
+	# This is an example of the complex programming technique: "reads from, or writes to, files or other persistent storage"
 	var loaded_game = ResourceLoader.load($panel_container/h_box_container/panel_container/v_box_container/line_edit.text)
 	if loaded_game:
 		board = loaded_game

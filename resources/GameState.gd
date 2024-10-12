@@ -1,5 +1,11 @@
 class_name GameState extends Resource
 
+# This script/resource is an example of the complex programming technique: "defines class(es) and creates objects."
+# Custom resources are godot's equivalent of defining classes. The "creating objects" part is on line 5 of board.gd
+# among other places. This also satisfies the complex programming technique: "defines and uses custom types(s)"
+# which is really pretty much the same thing because deffining a class is a custom type.
+
+
 # A note on vectors.
 # Godot vectors use a positive y value for down. Whenever Vector2i's are used
 # for board positions they will use this convention as opposed to the standard
