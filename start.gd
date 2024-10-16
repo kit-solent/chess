@@ -53,6 +53,10 @@ func _ready():
 
 	Core.backspace.connect(_backspace)
 
+	if Core.returning_because_server_quit:
+		$main/body/body/joinhost/joinhost/return_reason.show()
+		# TODO: if other reasons arrise change the text.
+
 
 # Title animation stuff
 func godot(tween, time, forward = true):
@@ -277,7 +281,6 @@ func _on_host_button_down():
 
 
 func _on_about_meta_clicked(meta):
-	print("opening: " + str(meta))
 	if (
 		meta
 		in [

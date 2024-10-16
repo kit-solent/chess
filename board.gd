@@ -7,6 +7,12 @@ var board = GameState.new()
 
 func _ready():
 	blit(board.to_rpc())
+	Core.server_disconnected.connect(_server_dis)
+
+
+func _server_dis():
+	Core.returning_because_server_quit = true
+	get_tree().change_scene_to_file("res://start.tscn")
 
 
 var selected_tile = null
@@ -17,19 +23,9 @@ func _process(_delta):
 		if selected_tile is Vector2i:
 			grid.get_children()[tile_pos_to_index(selected_tile)].deselect()
 			selected_tile = null
-	if Input.is_action_just_pressed("debug_key"):
-		print("--DEBUG KEY PRESSED ON: " + str(multiplayer.get_unique_id()) + "--")
 
 
 func tile_clicked(tile_position: Vector2i):
-	print(
-		(
-			"clicking tile: "
-			+ str(tile_position)
-			+ " with index: "
-			+ str(tile_pos_to_index(tile_position))
-		)
-	)
 	if selected_tile:
 		# check if the selected tile is of the same colour as the destination and if so don't move.
 		if Core.are_same_colour(
@@ -42,7 +38,6 @@ func tile_clicked(tile_position: Vector2i):
 		move_piece.rpc(selected_tile, tile_position)
 		get_tile_by_position(selected_tile).deselect()
 		selected_tile = null
-		print("piece moved")
 	elif get_tile_by_position(tile_position).has_piece():
 		if (
 			(
@@ -65,7 +60,6 @@ func tile_clicked(tile_position: Vector2i):
 			return  # can't move if it's not your turn.
 		get_tile_by_position(tile_position).select()
 		selected_tile = tile_position
-		print("selecting new piece")
 
 
 # NOTE: position's are global, i.e. they are the same accross the two boards.
@@ -173,7 +167,6 @@ func _on_button_button_down() -> void:
 
 
 func _on_button_2_button_down() -> void:
-	print("loading game...")
 	# This is an example of the complex programming technique: "reads from, or writes to, files or other persistent storage"
 	var loaded_game = ResourceLoader.load(
 		$panel_container/h_box_container/panel_container/v_box_container/line_edit.text
@@ -181,7 +174,17 @@ func _on_button_2_button_down() -> void:
 	if loaded_game:
 		board = loaded_game
 		blit.rpc(board.to_rpc(), true)
-		print("rpc sent.")
 	else:
 		printerr("Failed to load data.")
 		$panel_container/h_box_container/panel_container/v_box_container/button2.text = "Failed to load resource. Click to try again."
+
+
+func _on_pass_button_down():
+	# move the 0,0 piece back to the same spot faking a move.
+	if not (board.wtm == Core.playing_as_white):
+		return  # can't pass if it's not your turn.
+	for a in 8:
+		for b in 8:
+			if board.board[b][a] == Core.PIECES.EMPTY_SQUARE:
+				move_piece.rpc(Vector2i(a, b), Vector2i(a, b))
+				return

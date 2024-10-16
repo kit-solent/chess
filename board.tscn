@@ -48,6 +48,11 @@ text = "Enter a file path relative to the desktop below."
 layout_mode = 2
 placeholder_text = "saved_game.res"
 
+[node name="pass" type="Button" parent="panel_container/h_box_container/panel_container/v_box_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 33
+text = "Pass"
+
 [node name="aspect_ratio_container" type="AspectRatioContainer" parent="panel_container/h_box_container"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -61,3 +66,4 @@ columns = 8
 
 [connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/button" to="." method="_on_button_button_down"]
 [connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/button2" to="." method="_on_button_2_button_down"]
+[connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/pass" to="." method="_on_pass_button_down"]

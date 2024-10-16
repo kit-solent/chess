@@ -291,6 +291,10 @@ var ip_address: String
 
 var playing_as_white: bool
 
+# tracks the reason for why we are on the start screen.
+# if true we are here because the server disconnected.
+var returning_because_server_quit = false
+
 var username: String
 var connected_peers = {
 # in the format: id: "username",

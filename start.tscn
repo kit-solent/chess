@@ -155,11 +155,10 @@ size_flags_vertical = 3
 
 [node name="body" type="TabContainer" parent="main/body"]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 
 [node name="joinhost" type="MarginContainer" parent="main/body/body"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
@@ -170,6 +169,14 @@ metadata/_tab_index = 0
 [node name="joinhost" type="VBoxContainer" parent="main/body/body/joinhost"]
 layout_mode = 2
 theme_override_constants/separation = 16
+
+[node name="return_reason" type="Label" parent="main/body/body/joinhost/joinhost"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 27
+text = "The host has disconnected. Please join a new game or host your own."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="margin_container" type="MarginContainer" parent="main/body/body/joinhost/joinhost"]
 layout_mode = 2
@@ -241,6 +248,7 @@ disabled = true
 text = "Host Game"
 
 [node name="host" type="HBoxContainer" parent="main/body/body"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
