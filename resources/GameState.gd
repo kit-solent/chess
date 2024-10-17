@@ -52,10 +52,13 @@ func perform_move(from:Vector2i, to:Vector2i):
 	Moves the piece at square "from" to square "to" regardless of legal moves.
 	If the piece is a pawn moving to its final rank then promote it to a queen.
 	"""
+	print(from)
+	print(to)
+	print(Core.piece_names[board[from.y][from.x]])
 	if board[from.y][from.x] == PIECES.WHITE_PAWN and to.y == 0:
 		# if the piece is a white pawn moving to its final rank replace it with a queen.
 		board[to.y][to.x] = PIECES.WHITE_QUEEN
-	elif board[from.y][from.x] == PIECES.BLACK_PAWN and to.y == 8:
+	elif board[from.y][from.x] == PIECES.BLACK_PAWN and to.y == 7:
 		# same with a black one.
 		board[to.y][to.x] = PIECES.BLACK_QUEEN
 	else:

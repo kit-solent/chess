@@ -319,6 +319,21 @@ enum PIECES {
 	BLACK_PAWN
 }
 
+var piece_names = [
+	"empty square",
+	"white king",
+	"white queen",
+	"white rook",
+	"white bishop",
+	"white knight",
+	"white pawn",
+	"black king",
+	"black queen",
+	"black rook",
+	"black bishop",
+	"black knight",
+	"black pawn",
+]
 
 func are_same_colour(piece1: int, piece2: int):
 	return (
