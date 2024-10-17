@@ -1,7 +1,7 @@
 extends Node
 
 #                 v deliberate extra space to prevent the phrase from showing up in search.
-# Various complex   programming techniques are doccumented in the codebase with comments.
+# Various complex   programming techniques are documented in the codebase with comments.
 # To find these search (ctrl + shift + f) for: "complex programming technique"
 # The first of these can be found below:
 # The whole app is an example of the complex programming technique: "creates a graphical user interface (GUI)"
@@ -10,9 +10,9 @@ extends Node
 # This is an example of the complex programming technique: "uses third party of non-core API, library or framework".
 
 # For the last complex programming technique: "uses complex data structures (e.g.stacks, queues, trees)"
-# my program consistantly works with Godot's node tree structure, accessing and creating child nodes and
+# my program consistently works with Godot's node tree structure, accessing and creating child nodes and
 # using signals to communicate with parents. When I use: "get_tree().call_deferred("quit")" (on line 325 of this script)
-# I am using a queue. The method call "quit" is added to a queue and is excecuted when space is avalable.
+# I am using a queue. The method call "quit" is added to a queue and is executed when space is available.
 
 signal peer_connected(id)
 signal peer_disconnected(id)
@@ -20,7 +20,7 @@ signal connected_to_server
 signal connection_failed
 signal server_disconnected
 
-signal username_recieved(username, id)
+signal username_received(username, id)
 
 signal backspace
 
@@ -96,7 +96,7 @@ var words = [
 	"juice",
 	"steer",
 	"skate",
-	"recognise",
+	"recognize",
 	"preserve",
 	"guttural",
 	"adjoining",
@@ -335,6 +335,7 @@ var piece_names = [
 	"black pawn",
 ]
 
+
 func are_same_colour(piece1: int, piece2: int):
 	return (
 		(
@@ -443,4 +444,4 @@ func transmit_data(_username):
 	This method is used to transmit the username of the new peer to the host and vice versa.
 	"""
 	connected_peers[multiplayer.get_remote_sender_id()] = _username
-	username_recieved.emit(_username, multiplayer.get_remote_sender_id())
+	username_received.emit(_username, multiplayer.get_remote_sender_id())

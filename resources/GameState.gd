@@ -3,7 +3,7 @@ class_name GameState extends Resource
 # This script/resource is an example of the complex programming technique: "defines class(es) and creates objects."
 # Custom resources are godot's equivalent of defining classes. The "creating objects" part is on line 5 of board.gd
 # among other places. This also satisfies the complex programming technique: "defines and uses custom types(s)"
-# which is really pretty much the same thing because deffining a class is a custom type.
+# which is really pretty much the same thing because defining a class is a custom type.
 
 
 # A note on vectors.
@@ -11,9 +11,9 @@ class_name GameState extends Resource
 # for board positions they will use this convention as opposed to the standard
 # chess positioning conventions (a1 in the bottom left to h8 in the top right).
 
-# NOTE: The gamestate stored in this resource reperesents a global board state
+# NOTE: The gamestate stored in this resource represents a global board state
 # and, while it provides functions to access a flipped version of its board,
-# will store the board in its unflipped state. The board state of any two
+# will store the board in its un-flipped state. The board state of any two
 # GameState resources in different instances of the same game should be identical.
 
 var PIECES = Core.PIECES
@@ -32,18 +32,18 @@ var DEFAULT_BOARD = [
 @export var wtm = true
 
 func pos2vector(pos:String):
-	# these are backwards because of godots backwards y coords.
+	# these are backwards because of godot's backwards y coords.
 	return Vector2i("abcdefgh".find(pos[0]),"87654321".find(pos[0]))
 
 func vector2pos(vector:Vector2i):
 	return "abcdefgh"[vector.x]+"87654321"[vector.y]
 
-func fliped():
+func flipped():
 	var x=board.duplicate()
 	x.reverse()
 	return x
 
-func notflipped():
+func not_flipped():
 	var x=board.duplicate()
 	return x
 
@@ -52,9 +52,6 @@ func perform_move(from:Vector2i, to:Vector2i):
 	Moves the piece at square "from" to square "to" regardless of legal moves.
 	If the piece is a pawn moving to its final rank then promote it to a queen.
 	"""
-	print(from)
-	print(to)
-	print(Core.piece_names[board[from.y][from.x]])
 	if board[from.y][from.x] == PIECES.WHITE_PAWN and to.y == 0:
 		# if the piece is a white pawn moving to its final rank replace it with a queen.
 		board[to.y][to.x] = PIECES.WHITE_QUEEN

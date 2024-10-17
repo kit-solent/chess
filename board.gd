@@ -1,8 +1,9 @@
 extends Control
 
 var tile = preload("res://tile.tscn")
-@onready var grid = $panel_container/h_box_container/aspect_ratio_container/grid_container
 var board = GameState.new()
+
+@onready var grid = $panel_container/h_box_container/aspect_ratio_container/grid_container
 
 
 func _ready():
@@ -24,6 +25,7 @@ func _process(_delta):
 			grid.get_children()[tile_pos_to_index(selected_tile)].deselect()
 			selected_tile = null
 
+	# update the turn indicator.
 	$panel_container/h_box_container/panel_container/v_box_container/whoturn.text = (
 		"It's your turn." if board.wtm == Core.playing_as_white else "It's your opponents turn."
 	)
@@ -66,14 +68,14 @@ func tile_clicked(tile_position: Vector2i):
 		selected_tile = tile_position
 
 
-# NOTE: position's are global, i.e. they are the same accross the two boards.
-# Vector2i(0,0) will always be black's queenside rook (because that is the top
+# NOTE: position's are global, i.e. they are the same across the two boards.
+# Vector2i(0,0) will always be black's queen-side rook (because that is the top
 # left square from white's point of view).
 #
-# index's are local, i.e. they reperesent the local point of view of the board
-# and will be different accross instances. The index 0 will always be the top
+# index's are local, i.e. they represent the local point of view of the board
+# and will be different across instances. The index 0 will always be the top
 # left square on both boards and will only be equivalent to Vector2i(0,0) on
-# an unflipped board (with white at the bottom).
+# an un-flipped board (with white at the bottom).
 
 
 func tile_pos_to_index(pos: Vector2i, flipped: bool = not Core.playing_as_white):
@@ -121,9 +123,9 @@ func blit(
 
 	var bd
 	if flipped:
-		bd = board.fliped()
+		bd = board.flipped()
 	else:
-		bd = board.notflipped()
+		bd = board.not_flipped()
 
 	# remove all current children before blitting.
 	for i in grid.get_children():
@@ -155,7 +157,7 @@ func get_desktop_path():
 		desktop_path = OS.get_environment("HOME") + "/Desktop"
 	else:
 		printerr(
-			"OS not recognised. Please use one of the following operating systems: Windows, Linux, MacOS (please don't use this one)"
+			"OS not recognized. Please use one of the following operating systems: Windows, Linux, MacOS (please don't use this one)"
 		)
 		print("Saving data to user data directory instead.")
 		desktop_path = "user://"

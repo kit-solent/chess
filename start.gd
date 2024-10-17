@@ -58,13 +58,13 @@ Repository hosted at ([url="https://github.com/kit-solent/chess"]github.com/kit-
 	Core.connection_failed.connect(_connection_failed)
 	Core.server_disconnected.connect(_server_disconnected)
 
-	Core.username_recieved.connect(_username_recieved)
+	Core.username_received.connect(_username_received)
 
 	Core.backspace.connect(_backspace)
 
 	if Core.returning_because_server_quit:
 		$main/body/body/joinhost/joinhost/return_reason.show()
-		# TODO: if other reasons arrise change the text.
+		# TODO: if other reasons arise change the text.
 
 
 # Title animation stuff
@@ -98,7 +98,7 @@ func _peer_connected(id):
 	if is_host:
 		player_menu.get_node("default_message").hide()
 		var new = load("res://player_thingy.tscn").instantiate()
-		new.set_text("<USER: " + str(id) + ">")  # <USER: 123id678> is a placeholder untill the username is sent through.
+		new.set_text("<USER: " + str(id) + ">")  # <USER: 123id678> is a placeholder until the username is sent through.
 		new.name = str(id)
 		new.click.connect(_click.bind(id))
 		player_menu.add_child(new)
@@ -146,7 +146,7 @@ func _server_disconnected():
 	pass
 
 
-func _username_recieved(username, id):
+func _username_received(username, id):
 	if multiplayer.is_server():
 		player_menu.get_node(str(id)).set_text(username)
 
@@ -234,7 +234,7 @@ func _on_line_edit_4_text_submitted(_new_text):
 	)
 
 
-var empty = [false, false, false, false]  # tracks if the boxs were already empty before backspace was pressed.
+var empty = [false, false, false, false]  # tracks if the boxes were already empty before backspace was pressed.
 
 
 func _backspace():
