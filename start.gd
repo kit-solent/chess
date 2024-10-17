@@ -3,8 +3,16 @@ extends Control
 @onready var player_menu = %player_join_game_thingy
 var tabs: Dictionary  # a dictionary of tabs in the form "tab name": tab index. Used to look up tabs by name.
 
-
 func _ready():
+	# load the contents of README.md into the in-game label.
+	var file = FileAccess.open("res://README.md", FileAccess.READ)
+	var content = file.get_as_text()
+	var footer = """
+Repository hosted at ([url="https://github.com/kit-solent/chess"]github.com/kit-solent/chess[/url])
+
+© Max Lang ([url="https://github.com/kit-solent"]github.com/kit-solent[/url]) 2024"""
+	$main/body/about/p/t/About/About.text = content + footer
+	
 	var counter = 0
 	for i in $main/body/body.get_children():
 		tabs[i.name] = counter
@@ -56,7 +64,6 @@ func _ready():
 	if Core.returning_because_server_quit:
 		$main/body/body/joinhost/joinhost/return_reason.show()
 		# TODO: if other reasons arrise change the text.
-
 
 # Title animation stuff
 func godot(tween, time, forward = true):
