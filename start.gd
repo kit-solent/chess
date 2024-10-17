@@ -288,7 +288,8 @@ func _on_about_meta_clicked(meta):
 			"https://opengameart.org/content/pixel-chess-pieces",
 			"https://www.svgrepo.com/svg/477430/coin-toss-3",
 			"https://godotengine.org",
-			"https://github.com/kit-solent"
+			"https://github.com/kit-solent",
+			"https://github.com/kit-solent/chess"
 		]
 	):
 		OS.shell_open(meta)

@@ -557,7 +557,7 @@ custom_minimum_size = Vector2(144, 81)
 layout_mode = 2
 theme_override_font_sizes/font_size = 43
 text = "Please wait for the host to start the game.
-:)
+>:)
 
 Also, please consider learning the worlds most superior and awesome instument, the Saxophone.
 🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷🎷"
@@ -598,6 +598,8 @@ theme_override_font_sizes/normal_font_size = 25
 theme_override_font_sizes/bold_font_size = 42
 bbcode_enabled = true
 text = "This is a desktop chess application made using the Godot game engine for Windows. It supports LAN only multiplayer and provides some move restrictions/tools such as: enforcing turn based movment, pawn promotion, and the inability to move the other players pieces. It allows you to save games to a file and then restore the board state to that in the file later.
+
+Repository hosted at ([url=\"https://github.com/kit-solent/chess\"]github.com/kit-solent/chess[/url])
 
 © Max Lang ([url=\"https://github.com/kit-solent\"]github.com/kit-solent[/url]) 2024"
 

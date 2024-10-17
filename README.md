@@ -1,2 +1,1 @@
-# chess
-A desktop chess application made using the Godot game engine.
+This is a desktop chess application made using the Godot game engine for Windows. It supports LAN only multiplayer and provides some move restrictions/tools such as: enforcing turn based movment, pawn promotion, and the inability to move the other players pieces. It allows you to save games to a file and then restore the board state to that in the file later.

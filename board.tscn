@@ -53,6 +53,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 33
 text = "Pass"
 
+[node name="whoturn" type="Label" parent="panel_container/h_box_container/panel_container/v_box_container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "It's your turn."
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="aspect_ratio_container" type="AspectRatioContainer" parent="panel_container/h_box_container"]
 layout_mode = 2
 size_flags_horizontal = 3

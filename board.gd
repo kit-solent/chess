@@ -24,6 +24,10 @@ func _process(_delta):
 			grid.get_children()[tile_pos_to_index(selected_tile)].deselect()
 			selected_tile = null
 
+	$panel_container/h_box_container/panel_container/v_box_container/whoturn.text = (
+		"It's your turn." if board.wtm == Core.playing_as_white else "It's your opponents turn."
+	)
+
 
 func tile_clicked(tile_position: Vector2i):
 	if selected_tile:
