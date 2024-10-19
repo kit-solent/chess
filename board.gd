@@ -117,6 +117,7 @@ func blit(
 	var flipped = not playing_white
 	if not update_state:
 		# create a local variable to overshadow the global `board` variable.
+		@warning_ignore("shadowed_variable", "unused_variable")
 		var board = GameState.new()
 
 	board.from_rpc(_board)

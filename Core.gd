@@ -409,6 +409,7 @@ func create_server(port: int = DEFAULT_PORT, max_clients: int = 100):
 
 func create_client(ip: String, port: int = DEFAULT_PORT):
 	var peer = ENetMultiplayerPeer.new()
+	# This will generate an error upon failure.
 	var err = peer.create_client(ip, port)
 	if err:
 		_connection_failed()
