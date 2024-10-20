@@ -19,10 +19,24 @@ signal peer_disconnected(id)
 signal connected_to_server
 signal connection_failed
 signal server_disconnected
-
 signal username_received(username, id)
-
 signal backspace
+
+enum PIECES {
+	EMPTY_SQUARE,
+	WHITE_KING,
+	WHITE_QUEEN,
+	WHITE_ROOK,
+	WHITE_KNIGHT,
+	WHITE_BISHOP,
+	WHITE_PAWN,
+	BLACK_KING,
+	BLACK_QUEEN,
+	BLACK_ROOK,
+	BLACK_KNIGHT,
+	BLACK_BISHOP,
+	BLACK_PAWN
+}
 
 const DEFAULT_PORT = 7001  # 7000 is the default in the godot docs so I figure 7001 is safe to use.
 const IP_DELIMITER = "."
@@ -285,7 +299,7 @@ var words = [
 	"tense",
 	"change",
 	"substantial",
-	"receptive"
+	"receptive",
 ]
 var ip_address: String
 
@@ -302,22 +316,6 @@ var connected_peers = {
 
 # An array of Texture2D's for the game pieces.
 var piece_textures = []
-
-enum PIECES {
-	EMPTY_SQUARE,
-	WHITE_KING,
-	WHITE_QUEEN,
-	WHITE_ROOK,
-	WHITE_KNIGHT,
-	WHITE_BISHOP,
-	WHITE_PAWN,
-	BLACK_KING,
-	BLACK_QUEEN,
-	BLACK_ROOK,
-	BLACK_KNIGHT,
-	BLACK_BISHOP,
-	BLACK_PAWN
-}
 
 var piece_names = [
 	"empty square",
