@@ -6,9 +6,6 @@ extends Node
 # The first of these can be found below:
 # The whole app is an example of the complex programming technique: "creates a graphical user interface (GUI)"
 
-# My scripts were formatted using the "gdformat" tool (pip install gdtoolkit).
-# This is an example of the complex programming technique: "uses third party of non-core API, library or framework".
-
 # For the last complex programming technique: "uses complex data structures (e.g.stacks, queues, trees)"
 # my program consistently works with Godot's node tree structure, accessing and creating child nodes and
 # using signals to communicate with parents. When I use: "get_tree().call_deferred("quit")" (on line 325 of this script)
