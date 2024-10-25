@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b55gy0b353n8o"
-path="res://.godot/imported/whitespace.png-089835ffff9b1643e0937ce6d2d83d84.ctex"
+uid="uid://cm40erdx5defh"
+path="res://.godot/imported/trailing comma.png-bd3eab5134f76514f59b7e2936e2259a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/formatting evidence/whitespace.png"
-dest_files=["res://.godot/imported/whitespace.png-089835ffff9b1643e0937ce6d2d83d84.ctex"]
+source_file="res://screenshots/formatting_evidence/trailing comma.png"
+dest_files=["res://.godot/imported/trailing comma.png-bd3eab5134f76514f59b7e2936e2259a.ctex"]
 
 [params]
 

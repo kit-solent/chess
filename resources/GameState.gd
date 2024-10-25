@@ -16,6 +16,7 @@ class_name GameState extends Resource
 # will store the board in its un-flipped state. The board state of any two
 # GameState resources in different instances of the same game should be identical.
 
+# DEFAULT_BOARD uses this a lot so a shorter name is benificial.
 var PIECES = Core.PIECES
 
 var DEFAULT_BOARD = [
@@ -31,19 +32,18 @@ var DEFAULT_BOARD = [
 @export var board = DEFAULT_BOARD
 @export var wtm = true
 
-func pos2vector(pos:String):
-	# these are backwards because of godot's backwards y coords.
-	return Vector2i("abcdefgh".find(pos[0]),"87654321".find(pos[0]))
-
-func vector2pos(vector:Vector2i):
-	return "abcdefgh"[vector.x]+"87654321"[vector.y]
-
 func flipped():
+	"""
+	Return a copy of the board from black's perspective.
+	"""
 	var x=board.duplicate()
 	x.reverse()
 	return x
 
 func not_flipped():
+	"""
+	Return a copy of the board from white's perspective.
+	"""
 	var x=board.duplicate()
 	return x
 
@@ -67,11 +67,17 @@ func perform_move(from:Vector2i, to:Vector2i):
 	wtm = not wtm
 
 func to_rpc():
+	"""
+	Returns a dictionary of data reperesenting this object in an RPC-able format.
+	"""
 	return {
 		"board":board,
 		"wtm":wtm
 	}
 
 func from_rpc(data:Dictionary):
+	"""
+	Initialise this obejct from an RPC-able dictionary of data.
+	"""
 	board = data["board"]
 	wtm = data["wtm"]

@@ -1,23 +1,23 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmvv808hr3cnq"]
 
-[ext_resource type="Script" path="res://player_thingy.gd" id="1_e85u3"]
+[ext_resource type="Script" path="res://client_entry.gd" id="1_r051q"]
 
 [node name="h_box_container" type="HBoxContainer"]
 size_flags_horizontal = 3
 alignment = 2
-script = ExtResource("1_e85u3")
+script = ExtResource("1_r051q")
 
-[node name="label" type="Label" parent="."]
+[node name="username" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
-text = "Ricinus Communist"
+text = "<username here>"
 
 [node name="SPACER" type="Control" parent="."]
 custom_minimum_size = Vector2(53.92, 0)
 layout_mode = 2
 
-[node name="button" type="Button" parent="."]
+[node name="start_game" type="Button" parent="."]
 layout_mode = 2
 text = "Start game with this player"
 
-[connection signal="button_down" from="button" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="start_game" to="." method="_on_button_button_down"]

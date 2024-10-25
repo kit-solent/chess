@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d35dnxr2g8xwf"
-path="res://.godot/imported/line length.png-f46af96462db1bef8889b6ca09c25358.ctex"
+uid="uid://b0b223bpslq8g"
+path="res://.godot/imported/numbers.png-fe4002c6037baaf1954a620ad4e533fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/formatting evidence/line length.png"
-dest_files=["res://.godot/imported/line length.png-f46af96462db1bef8889b6ca09c25358.ctex"]
+source_file="res://screenshots/formatting_evidence/numbers.png"
+dest_files=["res://.godot/imported/numbers.png-fe4002c6037baaf1954a620ad4e533fe.ctex"]
 
 [params]
 

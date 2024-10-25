@@ -30,21 +30,22 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="button" type="Button" parent="panel_container/h_box_container/panel_container/v_box_container"]
+[node name="save_game" type="Button" parent="panel_container/h_box_container/panel_container/v_box_container"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 31
 text = "Save Game"
 
-[node name="button2" type="Button" parent="panel_container/h_box_container/panel_container/v_box_container"]
+[node name="load_game" type="Button" parent="panel_container/h_box_container/panel_container/v_box_container"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 31
 text = "Load Game"
 
-[node name="label" type="Label" parent="panel_container/h_box_container/panel_container/v_box_container"]
+[node name="file_hint" type="Label" parent="panel_container/h_box_container/panel_container/v_box_container"]
 layout_mode = 2
-text = "Enter a file path relative to the desktop below."
+text = "Enter a file path  below."
+horizontal_alignment = 1
 
-[node name="line_edit" type="LineEdit" parent="panel_container/h_box_container/panel_container/v_box_container"]
+[node name="file_path" type="LineEdit" parent="panel_container/h_box_container/panel_container/v_box_container"]
 layout_mode = 2
 placeholder_text = "saved_game.res"
 
@@ -65,12 +66,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment_horizontal = 2
 
-[node name="grid_container" type="GridContainer" parent="panel_container/h_box_container/aspect_ratio_container"]
+[node name="pieces" type="GridContainer" parent="panel_container/h_box_container/aspect_ratio_container"]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 8
 
-[connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/button" to="." method="_on_button_button_down"]
-[connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/button2" to="." method="_on_button_2_button_down"]
+[connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/save_game" to="." method="_on_save_game_button_down"]
+[connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/load_game" to="." method="_on_load_game_button_down"]
 [connection signal="button_down" from="panel_container/h_box_container/panel_container/v_box_container/pass" to="." method="_on_pass_button_down"]

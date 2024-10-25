@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0b223bpslq8g"
-path="res://.godot/imported/numbers.png-aea7def5e5ea46d76ab5b106d066e609.ctex"
+uid="uid://ct670eqaqe4kp"
+path="res://.godot/imported/unnecessary parentheses.png-649a15350496464b8c8c833d27b6e5eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/formatting evidence/numbers.png"
-dest_files=["res://.godot/imported/numbers.png-aea7def5e5ea46d76ab5b106d066e609.ctex"]
+source_file="res://screenshots/formatting_evidence/unnecessary parentheses.png"
+dest_files=["res://.godot/imported/unnecessary parentheses.png-649a15350496464b8c8c833d27b6e5eb.ctex"]
 
 [params]
 

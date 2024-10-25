@@ -296,7 +296,8 @@ text = "Play as"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="option_button" type="OptionButton" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container/margin_container/playas"]
+[node name="playas" type="OptionButton" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container/margin_container/playas"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -312,94 +313,6 @@ popup/item_1/id = 1
 popup/item_2/text = "Black"
 popup/item_2/icon = ExtResource("4_swq01")
 popup/item_2/id = 1
-
-[node name="panel_container2" type="PanelContainer" parent="main/body/body/host/settings/margin_container/v_box_container"]
-editor_description = "This will not be implimented so keep it hidden."
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ebc6e")
-
-[node name="margin_container" type="MarginContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 4
-
-[node name="v_box_container" type="VBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="time" type="HBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container"]
-layout_mode = 2
-
-[node name="label" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/time"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "Time"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="time_controls_enabled" type="Button" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/time"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Enabled"
-
-[node name="easyhide" type="VBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="starttime" type="HBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide"]
-layout_mode = 2
-
-[node name="label" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide/starttime"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "Starting Time"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="h_box_container" type="HBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide/starttime"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 16
-
-[node name="min" type="SpinBox" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide/starttime/h_box_container"]
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 120.0
-rounded = true
-suffix = "minutes"
-
-[node name="sec" type="SpinBox" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide/starttime/h_box_container"]
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 55.0
-step = 5.0
-rounded = true
-suffix = "seconds"
-
-[node name="increment" type="HBoxContainer" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide"]
-layout_mode = 2
-
-[node name="label" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide/increment"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "Time Increment"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="spin_box" type="SpinBox" parent="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/easyhide/increment"]
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 600.0
-rounded = true
-suffix = "seconds"
 
 [node name="host_username" type="Label" parent="main/body/body/host/settings/margin_container/v_box_container"]
 layout_mode = 2
@@ -639,7 +552,6 @@ And the coin icon is from [url=\"https://www.svgrepo.com/svg/477430/coin-toss-3\
 [connection signal="text_changed" from="main/body/body/joinhost/joinhost/margin_container/panel_container/margin_container/h_box_container/margin_container/username_lineedit" to="." method="_on_line_edit_text_changed"]
 [connection signal="button_down" from="main/body/body/joinhost/joinhost/joinhost/join_button" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="main/body/body/joinhost/joinhost/joinhost/host_button" to="." method="_on_host_button_down"]
-[connection signal="button_down" from="main/body/body/host/settings/margin_container/v_box_container/panel_container2/margin_container/v_box_container/time/time_controls_enabled" to="." method="_on_time_controls_enabled_button_down"]
 [connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit1" to="." method="_on_line_edit_1_text_changed"]
 [connection signal="text_submitted" from="main/body/body/join/v_box_container/join_code_field/line_edit1" to="." method="_on_line_edit_1_text_submitted"]
 [connection signal="text_changed" from="main/body/body/join/v_box_container/join_code_field/line_edit2" to="." method="_on_line_edit_2_text_changed"]

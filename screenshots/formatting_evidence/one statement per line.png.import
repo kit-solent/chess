@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wse5dlfeyjdp"
-path="res://.godot/imported/boolean operators.png-cdf8179b8c3e4403df5b57b9a12f87cb.ctex"
+uid="uid://g08vi0a2lp4h"
+path="res://.godot/imported/one statement per line.png-28ec9616061eaa5410346db9dd39f298.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/formatting evidence/boolean operators.png"
-dest_files=["res://.godot/imported/boolean operators.png-cdf8179b8c3e4403df5b57b9a12f87cb.ctex"]
+source_file="res://screenshots/formatting_evidence/one statement per line.png"
+dest_files=["res://.godot/imported/one statement per line.png-28ec9616061eaa5410346db9dd39f298.ctex"]
 
 [params]
 

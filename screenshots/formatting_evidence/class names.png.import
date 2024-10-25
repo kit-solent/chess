@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6h0jc2f4a8wj"
-path="res://.godot/imported/indentation.png-48c1f41a5fa72f09ef3476b2bff69b8e.ctex"
+uid="uid://oy1181albgfn"
+path="res://.godot/imported/class names.png-9a9408964e098637578ffaf1884c5059.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/formatting evidence/indentation.png"
-dest_files=["res://.godot/imported/indentation.png-48c1f41a5fa72f09ef3476b2bff69b8e.ctex"]
+source_file="res://screenshots/formatting_evidence/class names.png"
+dest_files=["res://.godot/imported/class names.png-9a9408964e098637578ffaf1884c5059.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm40erdx5defh"
-path="res://.godot/imported/trailing comma.png-ab06366904edb0297b37b2c4be460c7a.ctex"
+uid="uid://wse5dlfeyjdp"
+path="res://.godot/imported/boolean operators.png-0a69359bdb5e0d5f6cbc52a6fa7efd06.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/formatting evidence/trailing comma.png"
-dest_files=["res://.godot/imported/trailing comma.png-ab06366904edb0297b37b2c4be460c7a.ctex"]
+source_file="res://screenshots/formatting_evidence/boolean operators.png"
+dest_files=["res://.godot/imported/boolean operators.png-0a69359bdb5e0d5f6cbc52a6fa7efd06.ctex"]
 
 [params]
 

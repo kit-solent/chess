@@ -11,6 +11,7 @@ extends Node
 # using signals to communicate with parents. When I use: "get_tree().call_deferred("quit")" (on line 325 of this script)
 # I am using a queue. The method call "quit" is added to a queue and is executed when space is available.
 
+# various signals emmitted when certain things happen to allow the rest of the scene tree to respond.
 signal peer_connected(id)
 signal peer_disconnected(id)
 signal connected_to_server
@@ -19,6 +20,7 @@ signal server_disconnected
 signal username_received(username, id)
 signal backspace
 
+# an enum of the pieces in a chess game.
 enum PIECES {
 	EMPTY_SQUARE,
 	WHITE_KING,
@@ -36,6 +38,8 @@ enum PIECES {
 }
 
 const DEFAULT_PORT = 7001  # 7000 is the default in the godot docs so I figure 7001 is safe to use.
+
+# These are the characters used to seperate elements of an ip address and join code respectivly.
 const IP_DELIMITER = "."
 const CODE_DELIMITER = " "
 
@@ -298,15 +302,21 @@ var words = [
 	"substantial",
 	"receptive",
 ]
+
+# the ip address of the current local computer
 var ip_address: String
 
+# a boolean to track if we are playing as white or not. If false we are playing black.
 var playing_as_white: bool
 
 # tracks the reason for why we are on the start screen.
 # if true we are here because the server disconnected.
 var returning_because_server_quit = false
 
+# our local username
 var username: String
+
+# a dictionary to store connected peers.
 var connected_peers = {
 # in the format: id: "username",
 }
@@ -314,6 +324,7 @@ var connected_peers = {
 # An array of Texture2D's for the game pieces.
 var piece_textures = []
 
+# a list of piece names to match the enum: "PIECES".
 var piece_names = [
 	"empty square",
 	"white king",
@@ -332,6 +343,10 @@ var piece_names = [
 
 
 func are_same_colour(piece1: int, piece2: int):
+	"""
+	Returns true if "piece1" is of the same colour as "piece2".
+	Returns false otherwise or if either piece is empty.
+	"""
 	return (
 		(
 			piece1 in range(PIECES.WHITE_KING, PIECES.WHITE_PAWN + 1)
@@ -345,6 +360,11 @@ func are_same_colour(piece1: int, piece2: int):
 
 
 func _ready():
+	"""
+	Called when the scene finishes loading. Trys to find the username and quits
+	if an unsupported OS is detected. Also loads the game art and connects the
+	multiplayer signals.
+	"""
 	# DisplayServer.window_set_min_size(Vector2i(1152, 648))
 	# This works for Windows but not for MacOS and I haven't tested it on Linux.
 	if OS.get_name() == "Windows" and OS.has_environment("COMPUTERNAME"):  # Windows
@@ -368,6 +388,10 @@ func _ready():
 
 
 func _process(_delta):
+	"""
+	Called every frame. Used to emit a backspace signal whenever the
+	backspace key is pressed
+	"""
 	if Input.is_action_just_pressed("ui_text_backspace"):
 		backspace.emit()
 
@@ -392,8 +416,10 @@ func code_to_ip(code: String):
 	return x.left(-1)
 
 
-# Multiplayer functionality
 func create_server(port: int = DEFAULT_PORT, max_clients: int = 100):
+	"""
+	This function creates a server.
+	"""
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(port, max_clients)
 	if err:
@@ -403,6 +429,9 @@ func create_server(port: int = DEFAULT_PORT, max_clients: int = 100):
 
 
 func create_client(ip: String, port: int = DEFAULT_PORT):
+	"""
+	This function creates a client.
+	"""
 	var peer = ENetMultiplayerPeer.new()
 	# This will generate an error upon failure.
 	var err = peer.create_client(ip, port)
@@ -413,24 +442,46 @@ func create_client(ip: String, port: int = DEFAULT_PORT):
 
 
 func _peer_connected(id: int):
+	"""
+	Called on the host and every client whenever another peer connects.
+	"""
+	# set a dummy username untill the actual username is transmitted.
 	connected_peers[id] = 53  # 53 is not a valid username
 	peer_connected.emit(id)
+	
+	# send our username to the new peer.
 	transmit_data.rpc_id(id, username)
 
+# The below 4 methods are used simply to pass on multiplayer peer
+# signals to the rest of the scene tree.
 
 func _peer_disconnected(id: int):
+	"""
+	Called on the server and every peer when another peer disconnects.
+	"""
 	peer_disconnected.emit(id)
 
 
 func _connected_to_server():
+	"""
+	Called on a client when it successfully connects to the server.
+	"""
 	connected_to_server.emit()
 
 
 func _connection_failed():
+	"""
+	Called on a client whenever the connection fails
+	for any reason. This could be an invalid join code/
+	ip address, or any other network issue.
+	"""
 	connection_failed.emit()
 
 
 func _server_disconnected():
+	"""
+	Called on a client when the server disconnects.
+	"""
 	server_disconnected.emit()
 
 
