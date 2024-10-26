@@ -372,7 +372,7 @@ func _on_about_button_down():
 
 
 # these are the characters allowed in a username.
-const ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123567890 _-."
+const ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 _-."
 
 
 func _on_line_edit_text_changed(new_text: String):
