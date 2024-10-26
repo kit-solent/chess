@@ -2,7 +2,6 @@ extends Control
 ## This script manages the board state. It handles move events and ensures that the two boards remain the
 ## same accross the two devices. It manages the selection and deselction of tiles.
 
-
 # preload the tile resource for later use.
 var tile = preload("res://tile.tscn")
 
@@ -14,9 +13,12 @@ var board = GameState.new()
 # loads. These variables are references to various nodes in the scene for later use.
 @onready var grid = $panel_container/h_box_container/aspect_ratio_container/pieces
 @onready var whoturn = $panel_container/h_box_container/panel_container/v_box_container/whoturn
-@onready var save_game_button = $panel_container/h_box_container/panel_container/v_box_container/save_game
-@onready var file_path_lineedit = $panel_container/h_box_container/panel_container/v_box_container/file_path
-@onready var load_game_button = $panel_container/h_box_container/panel_container/v_box_container/load_game
+@onready
+var save_game_button = $panel_container/h_box_container/panel_container/v_box_container/save_game
+@onready
+var file_path_lineedit = $panel_container/h_box_container/panel_container/v_box_container/file_path
+@onready
+var load_game_button = $panel_container/h_box_container/panel_container/v_box_container/load_game
 
 
 # this function is called when the scene has loaded.
@@ -37,6 +39,7 @@ func _server_dis():
 	Core.returning_because_server_quit = true
 	get_tree().change_scene_to_file("res://start.tscn")
 
+
 # this variable tracks the tile that the user has selected.
 # tiles are selected by clicking on them.
 var selected_tile = null
@@ -56,7 +59,9 @@ func _process(_delta):
 	whoturn.text = (
 		# if it's whites turn and we are white or alternativly if it's not whites turn and we are not playing white
 		# then it must be our turn.
-		"It's your turn." if board.wtm == Core.playing_as_white else "It's your opponents turn."
+		"It's your turn."
+		if board.wtm == Core.playing_as_white
+		else "It's your opponents turn."
 	)
 
 
@@ -77,22 +82,22 @@ func tile_clicked(tile_position: Vector2i):
 			get_tile_by_position(tile_position).select()
 			get_tile_by_position(selected_tile).deselect()
 			selected_tile = tile_position
-			
+
 			# leave the function to avoid calling the below code. The click event has
 			# been handled successfully and so no further action is needed from this function.
 			return
-		
+
 		# by this point we know that the new tile is not the same colour as the old tile.
 		# this means we can move the old tile to the new tile. This "makes a move" on the board
 		# potentially capturing an enemy piece.
-		
+
 		# using rpc means the move will happen on both our board and the remote board.
 		move_piece.rpc(selected_tile, tile_position)
-		
+
 		# after a move no tile should be selected so delselect the current tile.
 		get_tile_by_position(selected_tile).deselect()
 		selected_tile = null
-	
+
 	# otherwise there is no currently selected tile so we will be selecting one.
 	elif get_tile_by_position(tile_position).has_piece():
 		if (
@@ -114,7 +119,7 @@ func tile_clicked(tile_position: Vector2i):
 		# if they are not the same i.e. it's whites turn and we are playing black or it's blacks turn and we are playing white.
 		if not (board.wtm == Core.playing_as_white):
 			return  # can't move if it's not your turn.
-		
+
 		# select the new tile and update the tracker variable.
 		get_tile_by_position(tile_position).select()
 		selected_tile = tile_position
@@ -163,6 +168,7 @@ func get_tile_by_position(pos: Vector2i, flipped: bool = not Core.playing_as_whi
 	"""
 	return grid.get_children()[tile_pos_to_index(pos, flipped)]
 
+
 # the rpc annotation allows this function to be called from the remote computer
 # the "call_local" means to call this function locally as well as remotly whenever
 # RPC-ing it. The "any_peer" means the client is allowed to call it on the host.
@@ -205,7 +211,7 @@ func blit(
 	# remove all current children before blitting.
 	# this is done by first removing it from the grid
 	# then specifically deleting it through the variable
-	# reference. 
+	# reference.
 	for i in grid.get_children():
 		grid.remove_child(i)
 		i.queue_free()
@@ -236,11 +242,9 @@ func get_desktop_path():
 		# On Windows the Desktop is inside the user directory. Simply add "/Desktop" to the user folder.
 		desktop_path = OS.get_environment("USERPROFILE") + "/Desktop"
 	else:
-		printerr(
-			"OS not supported. This app is currently only available for Windows."
-		)
+		printerr("OS not supported. This app is currently only available for Windows.")
 		print("Saving data to user data directory instead.")
-		
+
 		# if the desktop path can't be found then default to godot's
 		# user data directory.
 		desktop_path = "user://"
@@ -264,9 +268,7 @@ func _on_load_game_button_down():
 	the "file_path" lineedit.
 	"""
 	# This is an example of the complex programming technique: "reads from, or writes to, files or other persistent storage"
-	var loaded_game = ResourceLoader.load(
-		file_path_lineedit.text
-	)
+	var loaded_game = ResourceLoader.load(file_path_lineedit.text)
 	if loaded_game:
 		board = loaded_game
 		blit.rpc(board.to_rpc(), true)
@@ -283,7 +285,7 @@ func _on_pass_button_down():
 	# move the 0,0 piece back to the same spot faking a move.
 	if not (board.wtm == Core.playing_as_white):
 		return  # can't pass if it's not your turn.
-	
+
 	# Locate an empty square and move it to itself.
 	for a in 8:
 		for b in 8:

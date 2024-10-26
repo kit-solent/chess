@@ -190,6 +190,7 @@ func get_denied():
 	$main/body/body.current_tab = tabs["join"]
 	$main/body/body/join/v_box_container/label.text = "Host has started a game with someone else."
 
+
 # these variables are the join code entry boxs
 @onready var box1 = %join_code_field/line_edit1
 @onready var box2 = %join_code_field/line_edit2
@@ -206,17 +207,17 @@ func fix_text(label_num, text = null):
 	"""
 	# get the label node from the index.
 	var label = [box1, box2, box3, box4][label_num]
-	
+
 	# if text is not provided default to the label's text.
 	if not text:
 		text = label.text
-	
+
 	# record the caret position for later use.
 	var caret_pos = label.caret_column
 	var new = ""
 	var carry = 0
-	
-	# loop over 
+
+	# loop over
 	for i in range(len(text)):
 		if text[i] in CODE_CHARS:
 			new += text[i].to_lower()
@@ -235,6 +236,7 @@ func fix_text(label_num, text = null):
 		[box1, box2, box3, box4][label_num + 1].grab_focus()
 		fix_text(label_num + 1, carry)
 
+
 # the following 4 functions use fix_text to fix the text on a label
 # when it is edited.
 func _on_line_edit_1_text_changed(_new_text):
@@ -252,6 +254,7 @@ func _on_line_edit_3_text_changed(_new_text):
 func _on_line_edit_4_text_changed(_new_text):
 	fix_text(3)
 
+
 # the following 4 functions shift the focus right when the enter key is pressed.
 func _on_line_edit_1_text_submitted(_new_text):
 	box2.grab_focus()
@@ -263,6 +266,7 @@ func _on_line_edit_2_text_submitted(_new_text):
 
 func _on_line_edit_3_text_submitted(_new_text):
 	box4.grab_focus()
+
 
 # this is the last box so try and connect when submitted.
 func _on_line_edit_4_text_submitted(_new_text):
@@ -320,6 +324,7 @@ func _on_join_button_down():
 	%join_code_field/line_edit1.grab_focus()
 	Core.username = %username_lineedit.text
 
+
 # variable to track if we are the host or not.
 var is_host
 
@@ -346,7 +351,7 @@ func _on_about_meta_clicked(meta):
 	"""
 	if (
 		meta
-		in [ # only open the link if it is one of the following.
+		in [  # only open the link if it is one of the following.
 			"https://fonts.google.com/specimen/Ubuntu",
 			"https://opengameart.org/content/pixel-chess-pieces",
 			"https://www.svgrepo.com/svg/477430/coin-toss-3",
@@ -364,6 +369,7 @@ func _on_about_button_down():
 	Called when the about button is clicked to toggle the visability of the about panel.
 	"""
 	$main/body/about.visible = not $main/body/about.visible
+
 
 # these are the characters allowed in a username.
 const ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123567890 _-."

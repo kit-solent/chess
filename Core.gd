@@ -448,12 +448,14 @@ func _peer_connected(id: int):
 	# set a dummy username untill the actual username is transmitted.
 	connected_peers[id] = 53  # 53 is not a valid username
 	peer_connected.emit(id)
-	
+
 	# send our username to the new peer.
 	transmit_data.rpc_id(id, username)
 
+
 # The below 4 methods are used simply to pass on multiplayer peer
 # signals to the rest of the scene tree.
+
 
 func _peer_disconnected(id: int):
 	"""
